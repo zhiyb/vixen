@@ -59,21 +59,14 @@
       <Name>Effect</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Pulse\Pulse.csproj">
-      <Project>{a815a79e-305d-4167-a0bc-ffa590bb4644}</Project>
-      <Name>Pulse</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -84,11 +77,6 @@
     <Compile Include="VUMeterDescriptor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
-      <Project>{A54FB6A1-A9C3-488C-B961-41B8DBC81B36}</Project>
-      <Name>Controls</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\App\ColorGradients\ColorGradients.csproj">
       <Project>{1B189B36-02AF-4A57-9E1B-6DC833212725}</Project>
       <Name>ColorGradients</Name>
@@ -99,9 +87,6 @@
       <Name>Curves</Name>
       <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\Effect48.png" />

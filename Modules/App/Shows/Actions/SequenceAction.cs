@@ -14,9 +14,9 @@ namespace VixenModules.App.Shows
 	public class SequenceAction : Action
 	{
 		private ISequenceContext _sequenceContext = null;
-		private static NLog.Logger Logging = NLog.LogManager.GetCurrentClassLogger();
-		private ISequence _sequence = null;
-
+		private static readonly NLog.Logger Logging = NLog.LogManager.GetCurrentClassLogger();
+		private ISequence _sequence;
+		
 		public SequenceAction(ShowItem showItem)
 			: base(showItem)
 		{
@@ -75,7 +75,6 @@ namespace VixenModules.App.Shows
 
 			try
 			{
-				//Console.WriteLine("PreProcess: " + ShowItem.Name + " : " + (_sequenceContext == null));
 				if (_sequenceContext == null || SequenceChanged())
 				{
 					if (_sequenceContext != null)
@@ -83,16 +82,37 @@ namespace VixenModules.App.Shows
 						DisposeCurrentContext();
 					}
 
-					_sequence = SequenceService.Instance.Load(ShowItem.Sequence_FileName);
+					var entry = SequenceManager.GetSequenceAsync(ShowItem.Sequence_FileName);
+					entry.Wait();
+					var sequenceEntry = entry.Result;
 
+					if (sequenceEntry == null)
+					{
+						Logging.Error("Failed to preprocess sequence {1} because it could not be loaded.", ShowItem.Name);
+						return;
+					}
+
+					//Give up to 30 seconds for the sequence to load.
+					int retryCount = 0;
+					while (sequenceEntry.SequenceLoading && retryCount<30)
+					{
+						retryCount++;
+						Logging.Info("Waiting for sequence to load. {1}", ShowItem.Name);
+						Thread.Sleep(1);
+					}
+
+					if (sequenceEntry.Sequence == null)
+					{
+						Logging.Error("Failed to preprocess sequence {1} because it could not be loaded.", ShowItem.Name);
+						return;
+					}
+					_sequence = sequenceEntry.Sequence;
+					
 					//Initialize the media if we have it so any audio effects can be rendered 
 					LoadMedia();
-					// Why doesn't this work?
-					//IContext context = VixenSystem.Contexts.CreateSequenceContext(new ContextFeatures(ContextCaching.ContextLevelCaching), sequence);
+					
 					ISequenceContext context = VixenSystem.Contexts.CreateSequenceContext(new ContextFeatures(ContextCaching.NoCaching), _sequence);
 
-					// Parallel doesn't work here. Causes multiple sequences to be run at the same time
-					//foreach (IEffectNode effectNode in sequence.SequenceData.EffectData.Cast<IEffectNode>())
 					Parallel.ForEach(_sequence.SequenceData.EffectData.Cast<IEffectNode>(), RenderEffect);
 
 					context.SequenceEnded += sequence_Ended;
@@ -103,7 +123,7 @@ namespace VixenModules.App.Shows
 			}
 			catch (Exception ex)
 			{
-				Logging.ErrorException("Could not pre-render sequence " + ShowItem.Sequence_FileName + "; ",ex);
+				Logging.Error("Could not pre-render sequence " + ShowItem.Sequence_FileName + "; ",ex);
 			}
 		}
 
@@ -150,11 +170,12 @@ namespace VixenModules.App.Shows
 			{
 				_sequenceContext.SequenceEnded -= sequence_Ended;
 				VixenSystem.Contexts.ReleaseContext(_sequenceContext);
-				var tSequence = (_sequence as TimedSequence);
-				if (tSequence != null)
-				{
-					tSequence.Dispose();
-				}
+
+				//var tSequence = (ShowItem.Sequence as TimedSequence);
+				//if (tSequence != null)
+				//{
+				//	tSequence.Dispose();
+				//}
 
 			}
 		}
@@ -166,7 +187,7 @@ namespace VixenModules.App.Shows
 				DisposeCurrentContext();
 				
 			}
-			_sequence = null;
+			SequenceManager.ConsumerFinished(ShowItem.Sequence_FileName);
 			_sequenceContext = null;
 			base.Dispose(disposing);
 		}

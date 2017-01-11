@@ -7,6 +7,7 @@ using System.Drawing;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Vixen.Sys;
 using VixenModules.App.Shows;
 
 namespace VixenModules.App.SuperScheduler
@@ -143,7 +144,7 @@ namespace VixenModules.App.SuperScheduler
 
 				if (result < StartTime)
 				{
-					result = _endTime.AddDays(1);
+					result = result.AddDays(1);
 				}
 				return result;
 			}
@@ -307,12 +308,12 @@ namespace VixenModules.App.SuperScheduler
 			if (tokenSourcePreProcessAll == null || tokenSourcePreProcessAll.IsCancellationRequested)
 				tokenSourcePreProcessAll = new CancellationTokenSource();
 
-			var preProcessTask = new Task(a => PreProcessActionTask(),null, tokenSourcePreProcessAll.Token);
-			preProcessTask.ContinueWith(task => BeginStartup());
+			var preProcessTask = new Task(a => PreProcessActionTask(),tokenSourcePreProcessAll.Token);
+
+			preProcessTask.ContinueWith(task => BeginStartup(), tokenSourcePreProcessAll.Token);
 
 			preProcessTask.Start();
 
-			//BeginStartup();
 		}
 
 		private void PreProcessActionTask()

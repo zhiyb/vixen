@@ -12,6 +12,7 @@ using VixenModules.Editor.VixenPreviewSetup3.Undo;
 using VixenModules.Preview.VixenPreview.Shapes;
 using VixenModules.Property.Location;
 using Common.Resources.Properties;
+using WeifenLuo.WinFormsUI.Docking;
 using Button = System.Windows.Forms.Button;
 using Control = System.Windows.Forms.Control;
 
@@ -58,6 +59,10 @@ namespace VixenModules.Preview.VixenPreview {
 				c.BackColor = Color.Black;
 			}
 			dockPanel.BackColor = ThemeColorTable.BackgroundColor;
+
+			var theme = new VS2015DarkTheme();
+			dockPanel.Theme = theme;
+
 			label9.ForeColor = Color.Turquoise;
 			label10.ForeColor = Color.LimeGreen;
 			label11.ForeColor = Color.White;
@@ -450,7 +455,7 @@ namespace VixenModules.Preview.VixenPreview {
 				if (System.IO.File.Exists(templateItem.FileName)) {
 					//messageBox Arguments are (Text, Title, No Button Visible, Cancel Button Visible)
 					MessageBoxForm.msgIcon = SystemIcons.Question; //this is used if you want to add a system icon to the message form.
-					var messageBox = new MessageBoxForm("Are you sure you want to delete the template '" + templateItem.FileName + "'", "Delete Template", true, false);
+					var messageBox = new MessageBoxForm("Are you sure you want to delete the template '" + templateItem.Caption + "'?", "Delete Template", true, false);
 					messageBox.ShowDialog();
 					if (messageBox.DialogResult == DialogResult.OK)
 					{

@@ -276,7 +276,7 @@
 			this.textBox1.Size = new System.Drawing.Size(488, 36);
 			this.textBox1.TabIndex = 17;
 			this.textBox1.Text = "You must have all of your required display elements to controller outputs fully p" +
-    "atched in the Display Setup for the export to produce correct results..";
+    "atched in the Display Setup for the export to produce correct results.";
 			// 
 			// btnUserCancel
 			// 
@@ -296,6 +296,8 @@
 			this.btnUserCancel.TabIndex = 18;
 			this.btnUserCancel.Text = "Close";
 			this.btnUserCancel.UseVisualStyleBackColor = false;
+			this.btnUserCancel.MouseLeave += new System.EventHandler(this.buttonBackground_MouseLeave);
+			this.btnUserCancel.MouseHover += new System.EventHandler(this.buttonBackground_MouseHover);
 			// 
 			// ExportDialog
 			// 
