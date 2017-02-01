@@ -193,6 +193,7 @@
     <Compile Include="Factory\PreviewFactory.cs" />
     <Compile Include="Factory\SmartControllerFactory.cs" />
     <Compile Include="Instrumentation\MillisecondsValue.cs" />
+    <Compile Include="Instrumentation\TimeValue.cs" />
     <Compile Include="Intent\DiscreteLightingIntent.cs" />
     <Compile Include="Intent\IntentBuilder.cs" />
     <Compile Include="Intent\IntentHelpers.cs" />

@@ -13,6 +13,8 @@ using Common.Controls.Theme;
 using VixenModules.Media.Audio;
 using System.Threading.Tasks;
 using Common.Controls.Scaling;
+using Vixen.Sys;
+using Vixen.Sys.Instrumentation;
 
 namespace Common.Controls.Timeline
 {
@@ -38,6 +40,8 @@ namespace Common.Controls.Timeline
 		#endregion
 
 		private bool _sequenceLoading = false;
+
+        private TimeValue _playbackTime;
 
 		public bool ZoomToMousePosition { get; set; }
 
@@ -857,7 +861,11 @@ namespace Common.Controls.Timeline
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-		}
+            
+            // Instrumentation value
+            _playbackTime = new TimeValue("TimelineControl playback");
+            VixenSystem.Instrumentation.AddValue(_playbackTime);
+        }
 
 		protected override void OnLayout(LayoutEventArgs e)
 		{
@@ -878,6 +886,9 @@ namespace Common.Controls.Timeline
 
 				if (PlaybackCurrentTime.Value < VisibleTimeStart)
 					VisibleTimeStart = PlaybackCurrentTime.Value - VisibleTimeSpan.Scale(0.1);
+
+                var ts = PlaybackCurrentTime.Value;
+                _playbackTime.Set(ts.TotalSeconds);
 			}
 
 			base.OnPlaybackCurrentTimeChanged(sender, e);

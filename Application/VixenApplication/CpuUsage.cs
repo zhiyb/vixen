@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Diagnostics;
+using Vixen.Sys;
+using Vixen.Sys.Instrumentation;
 
 namespace VixenApplication
 {
@@ -27,7 +29,9 @@ namespace VixenApplication
 		private DateTime _lastRun;
 		private long _runCount;
 
-		public CpuUsage()
+        private TimeValue _usageValue;
+
+        public CpuUsage()
 		{
 			_cpuUsage = -1;
 			_lastRun = DateTime.MinValue;
@@ -35,7 +39,10 @@ namespace VixenApplication
 			_prevSysKernel.dwHighDateTime = _prevSysKernel.dwLowDateTime = 0;
 			_prevProcTotal = TimeSpan.MinValue;
 			_runCount = 0;
-		}
+            // Instrumentation value
+            _usageValue = new TimeValue("CPU usage");
+            VixenSystem.Instrumentation.AddValue(_usageValue);
+        }
 
 		public short GetUsage()
 		{
@@ -80,6 +87,7 @@ namespace VixenApplication
 			}
 			Interlocked.Decrement(ref _runCount);
 
+            _usageValue.Set(cpuCopy);
 			return cpuCopy;
 		}
 
