@@ -33,10 +33,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.numericUpDownStream = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDownPort = new System.Windows.Forms.NumericUpDown();
-            this.dumpFile = new System.Windows.Forms.TextBox();
             this.textBoxIPAddress = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStream)).BeginInit();
@@ -47,7 +45,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(258, 220);
+            this.buttonCancel.Location = new System.Drawing.Point(258, 171);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(93, 29);
             this.buttonCancel.TabIndex = 4;
@@ -60,7 +58,7 @@
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(159, 220);
+            this.buttonOK.Location = new System.Drawing.Point(159, 171);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(93, 29);
             this.buttonOK.TabIndex = 3;
@@ -74,14 +72,12 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.numericUpDownStream);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.numericUpDownPort);
-            this.groupBox1.Controls.Add(this.dumpFile);
             this.groupBox1.Controls.Add(this.textBoxIPAddress);
             this.groupBox1.Location = new System.Drawing.Point(14, 14);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(337, 178);
+            this.groupBox1.Size = new System.Drawing.Size(337, 134);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Configuration";
@@ -118,15 +114,6 @@
             this.label2.TabIndex = 11;
             this.label2.Text = "Port:";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(25, 126);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 15);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Dump file:";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -149,14 +136,6 @@
             this.numericUpDownPort.Size = new System.Drawing.Size(79, 23);
             this.numericUpDownPort.TabIndex = 1;
             // 
-            // dumpFile
-            // 
-            this.dumpFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dumpFile.Location = new System.Drawing.Point(121, 124);
-            this.dumpFile.Name = "dumpFile";
-            this.dumpFile.Size = new System.Drawing.Size(191, 23);
-            this.dumpFile.TabIndex = 0;
-            // 
             // textBoxIPAddress
             // 
             this.textBoxIPAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -170,7 +149,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(370, 278);
+            this.ClientSize = new System.Drawing.Size(370, 229);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancel);
@@ -198,7 +177,5 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.NumericUpDown numericUpDownPort;
 		private System.Windows.Forms.TextBox textBoxIPAddress;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox dumpFile;
     }
 }

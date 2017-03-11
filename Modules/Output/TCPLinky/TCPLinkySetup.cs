@@ -25,7 +25,6 @@ namespace VixenModules.Output.TCPLinky
 			Address = data.Address;
 			Port = data.Port;
 			Stream = data.Stream;
-            File = data.File;
 		}
 
 		public IPAddress Address
@@ -74,13 +73,7 @@ namespace VixenModules.Output.TCPLinky
 				numericUpDownStream.Value = value;
 			}
 		}
-
-        public string File
-        {
-            get { return (string) dumpFile.Text; }
-            set { dumpFile.Text = value; }
-        }
-
+        
 		private void buttonBackground_MouseHover(object sender, EventArgs e)
 		{
 			var btn = (Button)sender;

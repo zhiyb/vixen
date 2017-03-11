@@ -24,7 +24,6 @@ namespace VixenModules.Output.TCPLinky
         private NetworkStream _networkStream;
         private Stopwatch _timeoutStopwatch;
         private int _outputCount;
-        private FileStream _fs = null;
 
         public static byte HEADER_1 = 0xDE;
         public static byte HEADER_2 = 0xAD;
@@ -42,7 +41,6 @@ namespace VixenModules.Output.TCPLinky
             _data = new TCPLinkyData();
             _timeoutStopwatch = new Stopwatch();
             DataPolicyFactory = new DataPolicyFactory();
-            _fs = null;
         }
 
         private void _setupDataBuffers()
@@ -90,7 +88,6 @@ namespace VixenModules.Output.TCPLinky
                     _data.Address = setup.Address;
                 _data.Port = setup.Port;
                 _data.Stream = setup.Stream;
-                _data.File = setup.File;
                 CloseConnection();
                 return true;
             }
@@ -154,13 +151,7 @@ namespace VixenModules.Output.TCPLinky
 
             _timeoutStopwatch.Reset();
             _timeoutStopwatch.Start();
-
-            try {
-                _fs = File.Open(_data.File, FileMode.OpenOrCreate);
-            } catch (Exception ex) {
-                Logging.Warn(ex, LogTag + "Failed open file stream " + _data.File);
-            }
-
+            
             return true;
         }
 
@@ -184,13 +175,7 @@ namespace VixenModules.Output.TCPLinky
                 Logging.Trace(LogTag + "TCP client closed.");
                 _tcpClient = null;
             }
-
-            if (_fs != null) {
-                _fs.Flush();
-                _fs.Close();
-                _fs = null;
-            }
-
+            
             _timeoutStopwatch.Reset();
         }
 
@@ -292,8 +277,6 @@ namespace VixenModules.Output.TCPLinky
             if (changed || _timeoutStopwatch.ElapsedMilliseconds >= 10000) {
                 try {
                     _timeoutStopwatch.Restart();
-                    if (_fs != null)
-                        _fs.Write(data, 0, totalPacketLength);
                     if (FakingIt()) {
                         System.Threading.Thread.Sleep(1);
                     } else {

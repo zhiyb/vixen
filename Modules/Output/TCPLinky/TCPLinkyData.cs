@@ -19,17 +19,12 @@ namespace VixenModules.Output.TCPLinky
 
         [DataMember]
         public int Stream { get; set; }
-
-        [DataMember]
-        public string File { get; set; }
-
+        
         public TCPLinkyData()
         {
             Address = new IPAddress(new byte[] { 0, 0, 0, 0 });
-            Port = 6000;
+            Port = 12345;
             Stream = 0;
-            var path = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "Vixen");
-            File = path + "\\linky.bin";
         }
 
         public override IModuleDataModel Clone()
@@ -38,7 +33,6 @@ namespace VixenModules.Output.TCPLinky
             result.Address = new IPAddress(Address.GetAddressBytes());
             result.Port = Port;
             result.Stream = Stream;
-            result.File = File;
             return result;
         }
     }
