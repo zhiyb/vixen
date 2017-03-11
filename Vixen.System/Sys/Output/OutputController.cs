@@ -29,10 +29,6 @@ namespace Vixen.Sys.Output
 		private MillisecondsValue _updateTimeValue;
 		private ICommand[] commands = new ICommand[0];
 
-        private Stopwatch _localTime;
-        private Dictionary<string, FileStream> _fs;
-        private static UTF8Encoding _enc;
-
         internal OutputController(Guid id, string name, IOutputMediator<CommandOutput> outputMediator,
 								  IHardware executionControl,
 								  IOutputModuleConsumer<IControllerModuleInstance> outputModuleConsumer)
@@ -50,10 +46,6 @@ namespace Vixen.Sys.Output
 			_dataPolicy = ControllerModule.DataPolicyFactory.CreateDataPolicy();
 
 			ControllerModule.DataPolicyFactoryChanged += DataPolicyFactoryChanged;
-
-            _fs = new Dictionary<string, FileStream>();
-            _localTime = new Stopwatch();
-            _enc = new UTF8Encoding(true);
         }
 
 		private void CreatePerformanceValues()
@@ -131,23 +123,20 @@ namespace Vixen.Sys.Output
 				}
 				_outputMediator.LockOutputs();
 
-                int total = 0;
-				for (int i = 0; i < OutputCount; i++)
-				{
-					commands[i] = GenerateOutputCommand(Outputs[i]);
-                    if (commands[i] != null)
-                        total++;
+                if (Playback.IsOpen) {
+                    Playback.Controller con = Playback.Controllers[Name];
+                    int offset = con.startChan;
+                    for (int i = 0; i != con.channels; i++)
+                        commands[i] = new _8BitCommand(Playback.Data[offset + i]);
+                } else {
+                    int total = 0;
+                    for (int i = 0; i < OutputCount; i++) {
+                        commands[i] = GenerateOutputCommand(Outputs[i]);
+                        if (commands[i] != null)
+                            total++;
+                    }
                 }
                 ControllerModule.UpdateState(0, commands);
-
-                FileStream fs = _fs[Name];
-                if (total != 0 && fs != null)
-                {
-                    byte[] bytes = _enc.GetBytes("\"" + _localTime.Elapsed.TotalSeconds + "\",\"" +
-                        total + "\",\"" + Name + "\"\r\n");
-                    fs.Write(bytes, 0, bytes.Length);
-                }
-
             }
 			catch (Exception e)
 			{
@@ -177,18 +166,12 @@ namespace Vixen.Sys.Output
                 System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "Vixen");
             if (!System.IO.Directory.Exists(path))
                 System.IO.Directory.CreateDirectory(path);
-            _fs.Add(Name, File.Open(path + "\\dump_" + Name + ".csv", FileMode.OpenOrCreate));
-            _localTime.Restart();
         }
 
 		public void Stop()
 		{
 			_executionControl.Stop();
 			RemovePerformanceValues();
-
-            _fs[Name].Close();
-            _fs.Remove(Name);
-            _localTime.Stop();
 		}
 
 		public void Pause()

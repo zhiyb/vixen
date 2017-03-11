@@ -97,10 +97,13 @@ namespace Vixen.Sys.Managers
 					_lastMs = nowMs;
 
 					bool allowed = false;
-					Execution.UpdateState( out allowed);
+                    if (Playback.IsOpen)
+                        Playback.updateState(out allowed);
+                    else
+					    Execution.UpdateState(out allowed);
 					long execMs = _localTime.ElapsedMilliseconds - nowMs;
 
-					_UpdateOutputDevice();
+                    _UpdateOutputDevice();
 
 					if (allowed)
 					{

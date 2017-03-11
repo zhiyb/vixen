@@ -177,6 +177,7 @@
     <Compile Include="Execution\Context\ISequenceContext.cs" />
     <Compile Include="Execution\Context\SequenceContext.cs" />
     <Compile Include="Execution\QueuingSequenceEnumerator.cs" />
+    <Compile Include="Export\RawWriter.cs" />
     <Compile Include="Export\CSVWriter.cs" />
     <Compile Include="Export\Export.cs" />
     <Compile Include="Export\ExportCommandHandler.cs" />
@@ -330,6 +331,7 @@
     <Compile Include="Sys\ElementIntentStates.cs" />
     <Compile Include="Sys\IDataPolicyFactory.cs" />
     <Compile Include="Sys\IHasLayers.cs" />
+    <Compile Include="Sys\Instrumentation\RefreshRateValue.cs" />
     <Compile Include="Sys\IStateCombinator.cs" />
     <Compile Include="Sys\LayerMixing\Layer.cs" />
     <Compile Include="Sys\LayerMixing\DefaultLayer.cs" />
@@ -547,6 +549,7 @@
     <Compile Include="Sys\Output\OutputPreview.cs" />
     <Compile Include="Sys\Output\SmartOutputController.cs" />
     <Compile Include="Data\Value\PositionValue.cs" />
+    <Compile Include="Sys\Playback.cs" />
     <Compile Include="Sys\SequenceFilterLookup.cs" />
     <Compile Include="Sys\OutputIntentStateList.cs" />
     <Compile Include="Sys\ParameterSignature.cs" />
