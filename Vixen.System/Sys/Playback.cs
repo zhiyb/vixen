@@ -10,6 +10,8 @@ using Vixen.Sys.Managers;
 using Vixen.Sys.State.Execution;
 using System.Collections.Concurrent;
 using Vixen.Sys.Instrumentation;
+using Vixen.Module.Media;
+using Vixen.Services;
 
 namespace Vixen.Sys
 {
@@ -27,6 +29,8 @@ namespace Vixen.Sys
 
         private static FileStream _fs = null;
         private static BinaryReader _dataIn = null;
+        
+        public static List<IMediaModuleInstance> Media { get; set; }
 
         public struct Controller
         {
@@ -38,9 +42,19 @@ namespace Vixen.Sys
 
         private static Dictionary<string, Controller> _controller;
         
-        public static bool IsOpen
+        public static bool IsLoaded
         {
             get { return _dataIn != null; }
+        }
+
+        public static bool IsRunning
+        {
+            get
+            {
+                if (!IsLoaded)
+                    return false;
+                return _progress.IsRunning;
+            }
         }
 
         public static Dictionary<string, Controller> Controllers
@@ -53,22 +67,33 @@ namespace Vixen.Sys
             get { return _data; }
         }
 
-        public static string statusString
+        public static string StatusString
         {
             get
             {
-                if (!IsOpen)
+                if (!IsLoaded)
+                    return "Unloaded";
+                else if (!IsRunning)
                     return "Stopped";
                 return "Running: " + TimeSpan.FromMilliseconds(_frame * _resolution).ToString() +
-                    " @" + _frame + " " + 100l * _fs.Position / _fs.Length + "% " +
-                    " (" + _fs.Position + " / " + _fs.Length + ") " + _update;
+                    " @" + _frame + " " + 100l * _fs.Position / _fs.Length + "% " + _update;
             }
         }
         
         private static RefreshRateValue _updateRate;
         private static TimeValue _playbackTime = null;
 
-        public static void start(string fileName)
+        public static void ImportMedia(string filePath)
+        {
+            IMediaModuleInstance media = MediaService.Instance.ImportMedia(filePath);
+            if (media != null)
+            {
+                Media.Add(media);
+                Logging.Info("Media file: " + media.MediaFilePath);
+            }
+        }
+
+        public static void Load(string fileName)
         {
             // Instrumentation values
             if (_playbackTime == null) {
@@ -78,8 +103,30 @@ namespace Vixen.Sys
                 VixenSystem.Instrumentation.AddValue(_playbackTime);
             }
 
-            if (IsOpen)
-                stop();
+            if (Media == null)
+                Media = new List<IMediaModuleInstance>();
+
+            if (IsLoaded)
+            {
+                Stop();
+                Media.Clear();
+                if (_fs != null)
+                {
+                    _fs.Close();
+                    _fs = null;
+                }
+                if (_controller != null)
+                {
+                    _controller.Clear();
+                    _controller = null;
+                }
+                _dataIn = null;
+                _data = null;
+            }
+
+            if (fileName == null)
+                return;
+
             try {
                 _controller = new Dictionary<string, Controller>();
                 XmlReader reader = XmlReader.Create(fileName);
@@ -102,8 +149,10 @@ namespace Vixen.Sys
                             break;
                         case "Network":
                             while (reader.Read()) {     // Nested Network element
-                                if (!(reader.IsStartElement() && reader.Name == "Controller"))
+                                if (!reader.IsStartElement())
                                     break;
+                                if (reader.Name != "Controller")
+                                    continue;
                                 Controller con = new Controller();
                                 while (reader.Read()) {
                                     if (!reader.IsStartElement())
@@ -130,6 +179,16 @@ namespace Vixen.Sys
                                     con.name + " @ " + con.startChan + " + " + con.channels);
                             }
                             break;
+                        case "Media":
+                            while (reader.Read())
+                            {     // Nested Media element
+                                if (!reader.IsStartElement())
+                                    break;
+                                if (reader.Name != "FilePath")
+                                    continue;
+                                ImportMedia(reader.ReadElementContentAsString());
+                            }
+                            break;
                         }
                 reader.Close();
 
@@ -139,34 +198,39 @@ namespace Vixen.Sys
                 _dataIn = new BinaryReader(_fs);
                 if (_progress == null)
                     _progress = new Stopwatch();
-                readFrame();
+                ReadFrame();
                 _updateRate.Reset();
-                _progress.Restart();
+                _progress.Reset();
             } catch (Exception e) {
                 _dataIn = null;
                 throw e;
             }
         }
 
-        public static void stop()
+        public static void Start()
         {
-            _progress.Stop();
-            if (_fs != null) {
-                _fs.Close();
-                _fs = null;
-            }
-            if (_controller != null) {
-                _controller.Clear();
-                _controller = null;
-            }
-            _dataIn = null;
-            _data = null;
+            if (!IsLoaded || IsRunning)
+                return;
+            foreach (IMediaModuleInstance media in Media)
+                media.LoadMedia(_progress.Elapsed);
+            foreach (IMediaModuleInstance media in Media)
+                media.Start();
+            _progress.Start();
         }
 
-        // 4 bytes header, 1 byte command, 1 byte stream
+        public static void Stop()
+        {
+            if (!IsLoaded)
+                return;
+            _progress.Stop();
+            foreach (IMediaModuleInstance media in Media)
+                media.Stop();
+        }
+
+        // 4 bytes header, 1 byte command (set frame), 1 byte stream
         public static byte[] header = { 0xde, 0xad, 0xbe, 0xef, 0x02, 0x00 };
 
-        private static void readFrame()
+        private static void ReadFrame()
         {
             try {
                 int i = 0;
@@ -179,24 +243,19 @@ namespace Vixen.Sys
                 }
                 UInt16 channels = _dataIn.ReadUInt16();
                 Array.Copy(_dataIn.ReadBytes(channels), _data, channels);
-                //_data = _dataIn.ReadBytes(channels);
-                /*for (i = 0; i != channels; i++) {
-                    UInt16 ch = _dataIn.ReadUInt16();
-                    _data[ch] = _dataIn.ReadByte();
-                }*/
                 _playbackTime.Set((double)(_frame * _resolution) / 1000.0);
                 _updateRate.Increment();
             } catch (Exception e) {
-                stop();
+                Stop();
             }
         }
 
         private static Object lockObject = new Object();
 
-        public static void updateState(out bool allowed)
+        public static void UpdateState(out bool allowed)
         {
             lock (lockObject) {
-                if (!IsOpen) {
+                if (!IsLoaded) {
                     allowed = false;
                     return;
                 }
@@ -207,7 +266,7 @@ namespace Vixen.Sys
                 if (allowed)
                     while (itvl-- != 0ul) {
                         _frame++;
-                        readFrame();
+                        ReadFrame();
                     }
             }
         }

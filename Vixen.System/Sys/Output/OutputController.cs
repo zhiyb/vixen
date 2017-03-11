@@ -123,7 +123,7 @@ namespace Vixen.Sys.Output
 				}
 				_outputMediator.LockOutputs();
 
-                if (Playback.IsOpen) {
+                if (Playback.IsLoaded) {
                     Playback.Controller con = Playback.Controllers[Name];
                     int offset = con.startChan;
                     for (int i = 0; i != con.channels; i++)

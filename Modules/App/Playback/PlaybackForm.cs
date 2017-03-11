@@ -28,12 +28,13 @@ namespace VixenModules.App.Playback
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            Vixen.Sys.Playback.start(tbFile.Text);
+            Vixen.Sys.Playback.Load(tbFile.Text);
+            Vixen.Sys.Playback.Start();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            Vixen.Sys.Playback.stop();
+            Vixen.Sys.Playback.Stop();
         }
 
         private void PlaybackForm_Load(object sender, EventArgs e)
@@ -43,7 +44,7 @@ namespace VixenModules.App.Playback
 
         private void tUpdate_Tick(object sender, EventArgs e)
         {
-            lStatus.Text = Vixen.Sys.Playback.statusString;
+            lStatus.Text = Vixen.Sys.Playback.StatusString;
         }
     }
 }
