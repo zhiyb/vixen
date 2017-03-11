@@ -191,6 +191,13 @@ namespace Vixen.Export
                 }
                 writer.WriteEndElement();
 
+                writer.WriteStartElement("Media");
+                var sequenceMedia = sequence.GetAllMedia();
+                if (sequenceMedia != null && sequenceMedia.Any())
+                    foreach (var media in sequence.GetAllMedia())
+                        writer.WriteElementString("FilePath", media.MediaFilePath);
+                writer.WriteEndElement();
+
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
             }
