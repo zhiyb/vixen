@@ -17,8 +17,8 @@ namespace VixenModules.App.Shows
 		
 		public PlaybackAction(ShowItem showItem)
 			: base(showItem)
-		{
-		}
+        {
+        }
 
 		public override void Execute()
 		{
@@ -37,13 +37,15 @@ namespace VixenModules.App.Shows
 
         private void playback_Ended(object sender, EventArgs e)
         {
+            Playback.PlaybackEnded -= playback_Ended;
             base.Complete();
         }
 
         public override void Stop()
-		{
+        {
+            Playback.PlaybackEnded -= playback_Ended;
             Playback.Stop();
-			base.Stop();
+            base.Stop();
 		}
         
 		protected override void Dispose(bool disposing)
@@ -51,7 +53,7 @@ namespace VixenModules.App.Shows
 			if (disposing)
                 Playback.Unload();
             Playback.PlaybackEnded -= playback_Ended;
-			base.Dispose(disposing);
+            base.Dispose(disposing);
 		}
 	}
 }
