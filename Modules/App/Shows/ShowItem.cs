@@ -26,6 +26,7 @@ namespace VixenModules.App.Shows
 		//Show,
 		Launch,
 		Sequence,
+        Playback,
 		//WebPage,
 		Pause
 	}
@@ -52,8 +53,12 @@ namespace VixenModules.App.Shows
 		[DataMember]
 		public string Sequence_FileName { get; set; }
 
-		// Launch
-		[DataMember]
+        // Playback
+        [DataMember]
+        public string Playback_FileName { get; set; }
+
+        // Launch
+        [DataMember]
 		public string Launch_ProgramName { get; set; }
 		[DataMember]
 		public string Launch_CommandLine { get; set; }
@@ -92,6 +97,9 @@ namespace VixenModules.App.Shows
 					case ActionType.Sequence:
 						currentEditor = new SequenceTypeEditor(this);
 						break;
+                    case ActionType.Playback:
+                        currentEditor = new PlaybackTypeEditor(this);
+                        break;
 					case ActionType.Launch:
 						currentEditor = new LaunchTypeEditor(this);
 						break;
@@ -126,7 +134,10 @@ namespace VixenModules.App.Shows
 					case ActionType.Sequence:
 						currentAction = new SequenceAction(this);
 						break;
-					case ActionType.Launch:
+                    case ActionType.Playback:
+                        currentAction = new PlaybackAction(this);
+                        break;
+                    case ActionType.Launch:
 						currentAction = new LaunchAction(this);
 						break;
 					//case ActionType.WebPage:

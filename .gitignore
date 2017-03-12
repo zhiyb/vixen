@@ -8,6 +8,7 @@ _ReSharper*
 *.exe.*
 *.user
 *.suo
+*.tmp_proj
 /Output
 /Release
 /Release64

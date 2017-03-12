@@ -51,7 +51,7 @@ namespace Vixen.Sys
         {
             get
             {
-                if (!IsLoaded)
+                if (!IsLoaded || _progress == null)
                     return false;
                 return _progress.IsRunning;
             }
@@ -107,22 +107,7 @@ namespace Vixen.Sys
                 Media = new List<IMediaModuleInstance>();
 
             if (IsLoaded)
-            {
-                Stop();
-                Media.Clear();
-                if (_fs != null)
-                {
-                    _fs.Close();
-                    _fs = null;
-                }
-                if (_controller != null)
-                {
-                    _controller.Clear();
-                    _controller = null;
-                }
-                _dataIn = null;
-                _data = null;
-            }
+                Unload();
 
             if (fileName == null)
                 return;
@@ -201,11 +186,35 @@ namespace Vixen.Sys
                 ReadFrame();
                 _updateRate.Reset();
                 _progress.Reset();
+                foreach (IMediaModuleInstance media in Media)
+                    media.LoadMedia(_progress.Elapsed);
             } catch (Exception e) {
-                _dataIn = null;
+                Unload();
                 throw e;
             }
         }
+
+        public static void Unload()
+        {
+            Stop();
+            if (Media != null)
+                Media.Clear();
+            if (_fs != null)
+            {
+                _fs.Close();
+                _fs = null;
+            }
+            if (_controller != null)
+            {
+                _controller.Clear();
+                _controller = null;
+            }
+            _dataIn = null;
+            _data = null;
+        }
+
+        public static event EventHandler PlaybackStarted;
+        public static event EventHandler PlaybackEnded;
 
         public static void Start()
         {
@@ -216,15 +225,19 @@ namespace Vixen.Sys
             foreach (IMediaModuleInstance media in Media)
                 media.Start();
             _progress.Start();
+            if (PlaybackStarted != null)
+                PlaybackStarted(null, null);
         }
 
         public static void Stop()
         {
-            if (!IsLoaded)
-                return;
-            _progress.Stop();
-            foreach (IMediaModuleInstance media in Media)
-                media.Stop();
+            if (_progress != null)
+                _progress.Stop();
+            if (Media != null)
+                foreach (IMediaModuleInstance media in Media)
+                    media.Stop();
+            if (PlaybackEnded != null)
+                PlaybackEnded(null, null);
         }
 
         // 4 bytes header, 1 byte command (set frame), 1 byte stream

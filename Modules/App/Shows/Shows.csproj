@@ -57,8 +57,15 @@
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\PauseAction.cs" />
+    <Compile Include="Actions\PlaybackAction.cs" />
     <Compile Include="Actions\SequenceAction.cs" />
     <Compile Include="Actions\LaunchAction.cs" />
+    <Compile Include="Editors\PlaybackTypeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\PlaybackTypeEditor.Designer.cs">
+      <DependentUpon>PlaybackTypeEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editors\ShowTypeEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -166,6 +173,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Editors\PlaybackTypeEditor.resx">
+      <DependentUpon>PlaybackTypeEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Editors\ShowTypeEditor.resx">
       <DependentUpon>ShowTypeEditor.cs</DependentUpon>
     </EmbeddedResource>
