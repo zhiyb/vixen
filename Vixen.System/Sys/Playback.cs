@@ -12,36 +12,55 @@ using System.Collections.Concurrent;
 using Vixen.Sys.Instrumentation;
 using Vixen.Module.Media;
 using Vixen.Services;
+using System.Xml.Serialization;
 
 namespace Vixen.Sys
 {
     public class Playback
     {
         private static NLog.Logger Logging = NLog.LogManager.GetCurrentClassLogger();
-
-        private static uint _resolution = 50;
-        private static string _outFile = null;
-        private static TimeSpan _duration;
-
+        
         private static Stopwatch _progress = null;
         private static UInt64 _frame = 0, _update = 0;
         private static byte[] _data = null;
 
         private static FileStream _fs = null;
         private static BinaryReader _dataIn = null;
-        
-        public static List<IMediaModuleInstance> Media { get; set; }
 
-        public struct Controller
+        private static List<IMediaModuleInstance> _media = null;
+
+        [XmlRoot("Vixen3_Export")]
+        public class Export
         {
-            public string name;
-            public int index;
-            public int startChan;
-            public int channels;
+            [XmlElement("Resolution")]
+            public ulong Resolution { get; set; }
+            [XmlElement("OutFile")]
+            public string OutFile { get; set; }
+            [XmlElement("Duration")]
+            public string Duration { get; set; }
+            [XmlArray("Network")]
+            public List<Controller> Network { get; set; }
+            [XmlArray("Media")]
+            [XmlArrayItem("FilePath")]
+            public List<string> Media { get; set; }
         }
 
-        private static Dictionary<string, Controller> _controller;
-        
+        [XmlType("Controller")]
+        public class Controller
+        {
+            [XmlElement("Index")]
+            public int Index { get; set; }
+            [XmlElement("Name")]
+            public string Name { get; set; }
+            [XmlElement("StartChan")]
+            public int StartChan { get; set; }
+            [XmlElement("Channels")]
+            public int Channels { get; set; }
+        }
+
+        private static Export _export = null;
+        private static Dictionary<string, Controller> _controllers;
+
         public static bool IsLoaded
         {
             get { return _dataIn != null; }
@@ -59,7 +78,7 @@ namespace Vixen.Sys
 
         public static Dictionary<string, Controller> Controllers
         {
-            get { return _controller; }
+            get { return _controllers; }
         }
 
         public static byte[] Data
@@ -75,11 +94,11 @@ namespace Vixen.Sys
                     return "Unloaded";
                 else if (!IsRunning)
                     return "Stopped";
-                return "Running: " + TimeSpan.FromMilliseconds(_frame * _resolution).ToString() +
+                return "Running: " + TimeSpan.FromMilliseconds(_frame * _export.Resolution).ToString() +
                     " @" + _frame + " " + 100l * _fs.Position / _fs.Length + "% " + _update;
             }
         }
-        
+
         private static RefreshRateValue _updateRate;
         private static TimeValue _playbackTime = null;
 
@@ -88,94 +107,57 @@ namespace Vixen.Sys
             IMediaModuleInstance media = MediaService.Instance.ImportMedia(filePath);
             if (media != null)
             {
-                Media.Add(media);
-                Logging.Info("Media file: " + media.MediaFilePath);
+                media.LoadMedia(TimeSpan.Zero);
+                _media.Add(media);
             }
         }
 
         public static void Load(string fileName)
         {
             // Instrumentation values
-            if (_playbackTime == null) {
+            if (_playbackTime == null)
+            {
                 _updateRate = new RefreshRateValue("Data dump playback update");
                 VixenSystem.Instrumentation.AddValue(_updateRate);
                 _playbackTime = new TimeValue("Data dump playback");
                 VixenSystem.Instrumentation.AddValue(_playbackTime);
             }
 
-            if (Media == null)
-                Media = new List<IMediaModuleInstance>();
+            if (_media == null)
+                _media = new List<IMediaModuleInstance>();
 
             if (IsLoaded)
                 Unload();
 
             if (fileName == null)
                 return;
-
-            try {
-                _controller = new Dictionary<string, Controller>();
+            
+            try
+            {
+                var serializer = new XmlSerializer(typeof(Export));
                 XmlReader reader = XmlReader.Create(fileName);
-                int channels = 0;
-                while (reader.Read())
-                    if (reader.IsStartElement() && !reader.IsEmptyElement)
-                        switch (reader.Name) {
-                        case "Resolution":
-                            _resolution = (uint)reader.ReadElementContentAsInt();
-                            Logging.Info("Playback Resolution: " + _resolution);
-                            break;
-                        case "OutFile":
-                            _outFile = reader.ReadElementContentAsString();
-                            _fs = File.OpenRead(Path.Combine(Path.GetDirectoryName(fileName), _outFile));
-                            Logging.Info("Playback OutFile: " + _outFile);
-                            break;
-                        case "Duration":
-                            _duration = TimeSpan.Parse(reader.ReadElementContentAsString());
-                            Logging.Info("Playback Duration: " + _duration.ToString());
-                            break;
-                        case "Network":
-                            while (reader.Read()) {     // Nested Network element
-                                if (!reader.IsStartElement())
-                                    break;
-                                if (reader.Name != "Controller")
-                                    continue;
-                                Controller con = new Controller();
-                                while (reader.Read()) {
-                                    if (!reader.IsStartElement())
-                                        break;
-                                    switch (reader.Name) {
-                                    case "Index":
-                                        con.index = reader.ReadElementContentAsInt();
-                                        break;
-                                    case "Name":
-                                        con.name = reader.ReadElementContentAsString();
-                                        break;
-                                    case "StartChan":
-                                        con.startChan = reader.ReadElementContentAsInt();
-                                        break;
-                                    case "Channels":
-                                        con.channels = reader.ReadElementContentAsInt();
-                                        break;
-                                    }
-                                }
-                                if (con.startChan + con.channels > channels)
-                                    channels = con.startChan + con.channels;
-                                _controller.Add(con.name, con);
-                                Logging.Info("Playback Controller " + con.index + ": " +
-                                    con.name + " @ " + con.startChan + " + " + con.channels);
-                            }
-                            break;
-                        case "Media":
-                            while (reader.Read())
-                            {     // Nested Media element
-                                if (!reader.IsStartElement())
-                                    break;
-                                if (reader.Name != "FilePath")
-                                    continue;
-                                ImportMedia(reader.ReadElementContentAsString());
-                            }
-                            break;
-                        }
+                _export = (Export)serializer.Deserialize(reader);
                 reader.Close();
+
+                Logging.Info("Playback Resolution: " + _export.Resolution);
+                Logging.Info("Playback OutFile: " + _export.OutFile);
+                _fs = File.OpenRead(Path.Combine(Path.GetDirectoryName(fileName), _export.OutFile));
+                Logging.Info("Playback Duration: " + _export.Duration);
+                int channels = 0;
+                _controllers = new Dictionary<string, Controller>();
+                foreach (var controller in _export.Network)
+                {
+                    Logging.Info("Playback Controller " + controller.Index + ": " +
+                        controller.Name + " @ " + controller.StartChan + " + " + controller.Channels);
+                    if (controller.StartChan + controller.Channels > channels)
+                        channels = controller.StartChan + controller.Channels;
+                    _controllers.Add(controller.Name, controller);
+                }
+                foreach (var filePath in _export.Media)
+                {
+                    Logging.Info("Media file: " + filePath);
+                    ImportMedia(filePath);
+                }
 
                 _frame = 0;
                 _update = 0;
@@ -186,9 +168,11 @@ namespace Vixen.Sys
                 ReadFrame();
                 _updateRate.Reset();
                 _progress.Reset();
-                foreach (IMediaModuleInstance media in Media)
+                foreach (IMediaModuleInstance media in _media)
                     media.LoadMedia(_progress.Elapsed);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Unload();
                 throw e;
             }
@@ -197,17 +181,17 @@ namespace Vixen.Sys
         public static void Unload()
         {
             Stop();
-            if (Media != null)
-                Media.Clear();
+            if (_media != null)
+                _media.Clear();
             if (_fs != null)
             {
                 _fs.Close();
                 _fs = null;
             }
-            if (_controller != null)
+            if (_controllers != null)
             {
-                _controller.Clear();
-                _controller = null;
+                _controllers.Clear();
+                _controllers = null;
             }
             _dataIn = null;
             _data = null;
@@ -220,9 +204,9 @@ namespace Vixen.Sys
         {
             if (!IsLoaded || IsRunning)
                 return;
-            foreach (IMediaModuleInstance media in Media)
+            foreach (IMediaModuleInstance media in _media)
                 media.LoadMedia(_progress.Elapsed);
-            foreach (IMediaModuleInstance media in Media)
+            foreach (IMediaModuleInstance media in _media)
                 media.Start();
             _progress.Start();
             if (PlaybackStarted != null)
@@ -233,8 +217,8 @@ namespace Vixen.Sys
         {
             if (_progress != null)
                 _progress.Stop();
-            if (Media != null)
-                foreach (IMediaModuleInstance media in Media)
+            if (_media != null)
+                foreach (IMediaModuleInstance media in _media)
                     media.Stop();
             if (PlaybackEnded != null)
                 PlaybackEnded(null, null);
@@ -245,20 +229,25 @@ namespace Vixen.Sys
 
         private static void ReadFrame()
         {
-            try {
+            try
+            {
                 int i = 0;
-                while (i != header.Length) {
+                while (i != header.Length)
+                {
                     byte c = _dataIn.ReadByte();
-                    if (c != header[i++]) {
+                    if (c != header[i++])
+                    {
                         i = c == header[0] ? 1 : 0;
                         Logging.Warn("Frame header error @" + _fs.Position);
                     }
                 }
                 UInt16 channels = _dataIn.ReadUInt16();
                 Array.Copy(_dataIn.ReadBytes(channels), _data, channels);
-                _playbackTime.Set((double)(_frame * _resolution) / 1000.0);
+                _playbackTime.Set((double)(_frame * _export.Resolution) / 1000.0);
                 _updateRate.Increment();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Stop();
             }
         }
@@ -267,17 +256,20 @@ namespace Vixen.Sys
 
         public static void UpdateState(out bool allowed)
         {
-            lock (lockObject) {
-                if (!IsLoaded) {
+            lock (lockObject)
+            {
+                if (!IsLoaded)
+                {
                     allowed = false;
                     return;
                 }
                 _update++;
                 //bool allowUpdate = _UpdateAdjudicator.PetitionForUpdate();
-                UInt64 itvl = (ulong)_progress.ElapsedMilliseconds / _resolution - _frame;
+                UInt64 itvl = (ulong)_progress.ElapsedMilliseconds / _export.Resolution - _frame;
                 allowed = itvl != 0ul;
                 if (allowed)
-                    while (itvl-- != 0ul) {
+                    while (itvl-- != 0ul)
+                    {
                         _frame++;
                         ReadFrame();
                     }

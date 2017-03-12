@@ -125,8 +125,8 @@ namespace Vixen.Sys.Output
 
                 if (Playback.IsRunning) {
                     Playback.Controller con = Playback.Controllers[Name];
-                    int offset = con.startChan;
-                    for (int i = 0; i != con.channels; i++)
+                    int offset = con.StartChan;
+                    for (int i = 0; i != con.Channels; i++)
                         commands[i] = new _8BitCommand(Playback.Data[offset + i]);
                 } else {
                     int total = 0;
