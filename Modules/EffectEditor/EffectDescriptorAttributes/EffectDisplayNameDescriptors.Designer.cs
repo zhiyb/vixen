@@ -116,6 +116,15 @@ namespace VixenModules.EffectEditor.EffectDescriptorAttributes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blade Type.
+        /// </summary>
+        internal static string BladeType {
+            get {
+                return ResourceManager.GetString("BladeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blend.
         /// </summary>
         internal static string Blend {
@@ -503,7 +512,7 @@ namespace VixenModules.EffectEditor.EffectDescriptorAttributes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Individual Elements.
+        ///   Looks up a localized string similar to Choose Effect Depth.
         /// </summary>
         internal static string IndividualElements {
             get {
@@ -922,6 +931,24 @@ namespace VixenModules.EffectEditor.EffectDescriptorAttributes {
         internal static string WipeCount {
             get {
                 return ResourceManager.GetString("WipeCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wipe Off.
+        /// </summary>
+        internal static string WipeOff {
+            get {
+                return ResourceManager.GetString("WipeOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wipe On.
+        /// </summary>
+        internal static string WipeOn {
+            get {
+                return ResourceManager.GetString("WipeOn", resourceCulture);
             }
         }
         

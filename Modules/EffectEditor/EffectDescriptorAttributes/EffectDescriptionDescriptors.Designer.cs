@@ -62,6 +62,15 @@ namespace VixenModules.EffectEditor.EffectDescriptorAttributes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Controls whether each individual element is alternated independantly or controlled by the depth of the effect..
+        /// </summary>
+        internal static string AlternatingDepth {
+            get {
+                return ResourceManager.GetString("AlternatingDepth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Controls the amount of background chunks..
         /// </summary>
         internal static string BackgroundChunks {
@@ -98,6 +107,15 @@ namespace VixenModules.EffectEditor.EffectDescriptorAttributes {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Determines the look of the blade..
+        /// </summary>
+        internal static string BladeType {
+            get {
+                return ResourceManager.GetString("BladeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Applies the gradient blend vertically..
         /// </summary>
         internal static string Blend {
@@ -121,6 +139,15 @@ namespace VixenModules.EffectEditor.EffectDescriptorAttributes {
         internal static string ButterflyType {
             get {
                 return ResourceManager.GetString("ButterflyType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configures the size of the hub or hole in the center of the Pinwheel..
+        /// </summary>
+        internal static string CenterHub {
+            get {
+                return ResourceManager.GetString("CenterHub", resourceCulture);
             }
         }
         
@@ -755,7 +782,7 @@ namespace VixenModules.EffectEditor.EffectDescriptorAttributes {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Controls whether each individual element is twinkled independantly or all at once..
+        ///   Looks up a localized string similar to Controls whether each individual element is twinkled independantly or controled by the depth of the effect..
         /// </summary>
         internal static string TwinkleDepth {
             get {
@@ -778,6 +805,15 @@ namespace VixenModules.EffectEditor.EffectDescriptorAttributes {
         internal static string TwinklePulseTimeVariation {
             get {
                 return ResourceManager.GetString("TwinklePulseTimeVariation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configures the amount of rotation or twist the Pinwheel arm has..
+        /// </summary>
+        internal static string Twist {
+            get {
+                return ResourceManager.GetString("Twist", resourceCulture);
             }
         }
         

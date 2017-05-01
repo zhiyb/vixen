@@ -337,7 +337,7 @@
     <value>Controls how much of the effect by percent is covered in twinkles.</value>
   </data>
   <data name="TwinkleDepth" xml:space="preserve">
-    <value>Controls whether each individual element is twinkled independantly or all at once.</value>
+    <value>Controls whether each individual element is twinkled independantly or controled by the depth of the effect.</value>
   </data>
   <data name="TwinkleLevelVariation" xml:space="preserve">
     <value>Controls how much percent variation in the brightness level of each pulse in the twinkle.</value>
@@ -380,5 +380,17 @@
   </data>
   <data name="EnableMinimumBrightness" xml:space="preserve">
     <value>Enables a default brightness for the background in the effect. The background will be based on the foreground color selections.</value>
+  </data>
+  <data name="BladeType" xml:space="preserve">
+    <value>Determines the look of the blade.</value>
+  </data>
+  <data name="AlternatingDepth" xml:space="preserve">
+    <value>Controls whether each individual element is alternated independantly or controlled by the depth of the effect.</value>
+  </data>
+  <data name="CenterHub" xml:space="preserve">
+    <value>Configures the size of the hub or hole in the center of the Pinwheel.</value>
+  </data>
+  <data name="Twist" xml:space="preserve">
+    <value>Configures the amount of rotation or twist the Pinwheel arm has.</value>
   </data>
 </root>
