@@ -49,6 +49,20 @@ namespace Vixen.Sys
 			_LoadModulesFromFile(allModuleFiles);
 		}
 
+		public static void LoadControllerModules()
+		{
+			// moduleImplementation.Path need to be set (why?)
+			foreach (ModuleImplementation imp in _moduleImplementationDescriptors.Keys)
+				_GetModuleTypeDirectory(imp);
+			// Load only controllers for direct renderer
+			IEnumerable<string> moduleFiles =
+				_moduleImplementationDescriptors.Keys.Where(
+					x => x.TypeOfModule == "Controller"
+				).Select(_GetModuleTypeDirectory).SelectMany(
+					x => System.IO.Directory.GetFiles(x, "*.dll"));
+			_LoadModulesFromFile(moduleFiles);
+		}
+
 		public static void LoadModule(string filePath, IEnumerable<Guid> typesToLoad = null)
 		{
 			_LoadModulesFromFile(new[] {filePath}, typesToLoad);

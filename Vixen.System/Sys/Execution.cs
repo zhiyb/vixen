@@ -172,7 +172,7 @@ namespace Vixen.Sys
 			lock (lockObject) {
 				long lockMs = _stopwatch.ElapsedMilliseconds - nowMs;
 				bool allowUpdate = _UpdateAdjudicator.PetitionForUpdate();
-				if (allowUpdate) {
+				if (allowUpdate && VixenSystem.Contexts != null) {
 					bool elementsAffected = VixenSystem.Contexts.Update();
 					if (elementsAffected)
 					{

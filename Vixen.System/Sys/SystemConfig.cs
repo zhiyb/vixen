@@ -154,6 +154,9 @@ namespace Vixen.Sys
 
 		private IEnumerable<IOutputDevice> _GetDisabledDevices(IEnumerable<Guid> deviceIds)
 		{
+			if (_previews == null)
+				return deviceIds.Select(x => _controllers.FirstOrDefault(y => y.Id == x)).Where(x => x != null);
+										//_smartControllers.FirstOrDefault(y => y.Id == x) ??
 			return deviceIds.Select(x =>
 			                        _controllers.FirstOrDefault(y => y.Id == x) ??
 			                        //_smartControllers.FirstOrDefault(y => y.Id == x) ??

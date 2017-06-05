@@ -173,7 +173,7 @@ namespace Vixen.Sys
 				//SystemConfig.SmartOutputControllers = SmartOutputControllers;
 				SystemConfig.Previews = Previews;
 				SystemConfig.Elements = Elements;
-				SystemConfig.Nodes = Nodes.GetRootNodes();
+				SystemConfig.Nodes = Nodes == null ? null : Nodes.GetRootNodes();
 				SystemConfig.Filters = Filters;
 				SystemConfig.DataFlow = DataFlow;
 			
@@ -261,6 +261,43 @@ namespace Vixen.Sys
 				Execution.OpenExecution();
 		}
 
+		public static void LoadMinimal()
+		{
+			Logging.Info("Vixen System starting up...");
+			Instrumentation = new Instrumentation.Instrumentation();
+
+			Logging.Info("Loading modules...");
+			Modules.LoadControllerModules();
+
+			//Execution.initInstrumentation();
+			OutputControllers = new OutputControllerManager(
+				new OutputDeviceCollection<OutputController>(),
+				new OutputDeviceExecution<OutputController>());
+			//SmartOutputControllers = new SmartOutputControllerManager(
+			//	new ControllerLinkingManagement<SmartOutputController>(),
+			//	new OutputDeviceCollection<SmartOutputController>(),
+			//	new OutputDeviceExecution<SmartOutputController>());
+
+			//ControllerManagement = new ControllerFacade();
+			//ControllerManagement.AddParticipant(OutputControllers);
+			//ControllerManagement.AddParticipant(SmartOutputControllers);
+			OutputDeviceManagement = new OutputDeviceFacade();
+			OutputDeviceManagement.AddParticipant(OutputControllers);
+			//OutputDeviceManagement.AddParticipant(SmartOutputControllers);
+
+			// Load system data in order of dependency.
+			// The system data generally resides in the data branch, but it
+			// may not be in the case of an alternate context.
+			string systemDataPath = _GetSystemDataPath();
+			// Load module data before system config.
+			// System config creates objects that use modules that have data in the store.
+			ModuleStore = _LoadModuleStore(systemDataPath) ?? new ModuleStore();
+			SystemConfig = _LoadSystemConfig(systemDataPath) ?? new SystemConfig();
+
+			OutputControllers.AddRange(SystemConfig.OutputControllers.Cast<OutputController>());
+			//SmartOutputControllers.AddRange(SystemConfig.SmartOutputControllers.Cast<SmartOutputController>());
+			DefaultUpdateTimeSpan = TimeSpan.FromMilliseconds(SystemConfig.DefaultUpdateInterval);
+		}
 
 		public static RunState State
 		{

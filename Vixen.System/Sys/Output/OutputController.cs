@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using Vixen.Factory;
 using Vixen.Data.Flow;
+using Vixen.Module;
 using Vixen.Module.Controller;
 using Vixen.Commands;
 using Vixen.Sys.Instrumentation;
@@ -128,7 +129,7 @@ namespace Vixen.Sys.Output
                     int offset = con.StartChan;
                     for (int i = 0; i != con.Channels; i++)
                         commands[i] = new _8BitCommand(Playback.Data[offset + i]);
-                } else {
+				} else if (VixenSystem.Contexts != null) {
                     int total = 0;
                     for (int i = 0; i < OutputCount; i++) {
                         commands[i] = GenerateOutputCommand(Outputs[i]);
@@ -226,7 +227,8 @@ namespace Vixen.Sys.Output
 		{
 			_outputMediator.AddOutput(output);
 			IDataFlowComponent component = _adapterFactory.GetAdapter(output);
-			VixenSystem.DataFlow.AddComponent(component);
+			if (VixenSystem.DataFlow != null)
+				VixenSystem.DataFlow.AddComponent(component);
 			VixenSystem.OutputControllers.AddControllerOutputForDataFlowComponent(component, this, output.Index);
 			commands = null;
 		}
@@ -279,5 +281,9 @@ namespace Vixen.Sys.Output
 			get { return _outputModuleConsumer.Module; }
 		}
 
+		public IModuleDataModel ModuleData
+		{
+			get { return ControllerModule.ModuleData; }
+		}
 	}
 }

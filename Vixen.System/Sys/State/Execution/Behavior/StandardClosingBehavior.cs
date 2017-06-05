@@ -10,7 +10,8 @@
 			wm.EndEnhancedResolution();
 
 			// Release all contexts.
-			VixenSystem.Contexts.ReleaseContexts();
+			if (VixenSystem.Contexts != null)
+				VixenSystem.Contexts.ReleaseContexts();
 
 			// Stop all output devices.
 			VixenSystem.OutputDeviceManagement.StopAll();

@@ -1,4 +1,6 @@
-﻿namespace Vixen.IO.Policy
+﻿using Vixen.Sys;
+
+namespace Vixen.IO.Policy
 {
 	internal abstract class SystemConfigFilePolicy : IFilePolicy
 	{
@@ -37,13 +39,19 @@
 			ReadIdentity();
 			ReadFilterEvaluationAllowance();
 			ReadDefaultUpdateInterval();
-			ReadElements();
-			ReadNodes();
-			ReadControllers();
+			if (VixenSystem.Elements != null)
+				ReadElements();
+			if (VixenSystem.Nodes != null)
+				ReadNodes();
+			if (VixenSystem.OutputControllers != null)
+				ReadControllers();
 			//ReadSmartControllers();
-			ReadPreviews();
-			ReadFilters();
-			ReadDataFlowPatching();
+			if (VixenSystem.Previews != null)
+				ReadPreviews();
+			if (VixenSystem.Filters != null)
+				ReadFilters();
+			if (VixenSystem.DataFlow != null)
+				ReadDataFlowPatching();
 			ReadDisabledDevices();
 		}
 
