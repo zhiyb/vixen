@@ -300,9 +300,6 @@
   <data name="Shrink" xml:space="preserve">
     <value>Shrink the legs of the spiral.</value>
   </data>
-  <data name="SnowflakeType" xml:space="preserve">
-    <value>Controls the type of snowflake.</value>
-  </data>
   <data name="SpinSpeedFormat" xml:space="preserve">
     <value>Controls how the individual spins occur.</value>
   </data>
@@ -392,5 +389,74 @@
   </data>
   <data name="Twist" xml:space="preserve">
     <value>Configures the amount of rotation or twist the Pinwheel arm has.</value>
+  </data>
+  <data name="CenterX" xml:space="preserve">
+    <value>Controls the center positioning of the effect in the horizontal plane.</value>
+  </data>
+  <data name="CenterY" xml:space="preserve">
+    <value>Controls the center positioning of the effect in the vertical plane.</value>
+  </data>
+  <data name="RadiusCurve" xml:space="preserve">
+    <value>The radius of the circle over the time of the effect.</value>
+  </data>
+  <data name="WaveAcceleration" xml:space="preserve">
+    <value>Controls how the wave accelerates out from the center over time. </value>
+  </data>
+  <data name="WidthCurve" xml:space="preserve">
+    <value>The width over time of the effect.</value>
+  </data>
+  <data name="ColorType" xml:space="preserve">
+    <value>Controls the Type of Color.</value>
+  </data>
+  <data name="MaxMeteorAngle" xml:space="preserve">
+    <value>Max angle the Meteor moves.</value>
+  </data>
+  <data name="MinMeteorAngle" xml:space="preserve">
+    <value>Min angle the Meteor moves.</value>
+  </data>
+  <data name="MovementType" xml:space="preserve">
+    <value>Controls the Type of Movement.</value>
+  </data>
+  <data name="RandomPosition" xml:space="preserve">
+    <value>Creates new Meteors at a Random Position</value>
+  </data>
+  <data name="RandomSpeed" xml:space="preserve">
+    <value>Enables Random Speed settings.</value>
+  </data>
+  <data name="TailLength" xml:space="preserve">
+    <value>Controls the amount of TailLength.</value>
+  </data>
+  <data name="SpeedVariation" xml:space="preserve">
+    <value>Randomly adjust the Speed around the Speed level by the amount of variation..</value>
+  </data>
+  <data name="FlakeType" xml:space="preserve">
+    <value>Controls the type of snowflake.</value>
+  </data>
+  <data name="Include45Pt" xml:space="preserve">
+    <value>Include 45 Point Flakes.</value>
+  </data>
+  <data name="MaxAngle" xml:space="preserve">
+    <value>Max angle the Snowflake moves.</value>
+  </data>
+  <data name="MaxDirection" xml:space="preserve">
+    <value>Max Direction in Degrees.</value>
+  </data>
+  <data name="MinAngle" xml:space="preserve">
+    <value>Min angle the Snowflake moves.</value>
+  </data>
+  <data name="MinDirection" xml:space="preserve">
+    <value>Min Direction in Degrees.</value>
+  </data>
+  <data name="RandomIntensity" xml:space="preserve">
+    <value>Changes the Intensity for each element of the effect.</value>
+  </data>
+  <data name="GarlandType" xml:space="preserve">
+    <value>Changes the garland type.</value>
+  </data>
+  <data name="Spacing" xml:space="preserve">
+    <value>Adjusts the space between garlands.</value>
+  </data>
+  <data name="ReverseDirection" xml:space="preserve">
+    <value>Changes direction of effect.</value>
   </data>
 </root>

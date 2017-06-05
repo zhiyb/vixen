@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using NLog;
 using Vixen.Attributes;
@@ -64,6 +65,7 @@ namespace VixenModules.Effect.Effect
 		}
 
 		[ReadOnly(true)]
+		[Browsable(false)]
 		[ProviderCategory(@"Setup", 0)]
 		[ProviderDisplayName(@"StringCount")]
 		[ProviderDescription(@"StringCount")]
@@ -80,6 +82,7 @@ namespace VixenModules.Effect.Effect
 		}
 
 		[ReadOnly(true)]
+		[Browsable(false)]
 		[ProviderCategory(@"Setup", 0)]
 		[ProviderDisplayName(@"PixelsPerString")]
 		[ProviderDescription(@"PixelsPerString")]
@@ -96,18 +99,12 @@ namespace VixenModules.Effect.Effect
 			}
 		}
 
-		[ProviderCategory(@"Setup", 0)]
-		[ProviderDisplayName(@"Orientation")]
-		[ProviderDescription(@"Orientation")]
-		[PropertyOrder(2)]
-		public abstract StringOrientation StringOrientation { get; set; }
-
 		[Value]
 		[Browsable(false)]
 		[ProviderCategory(@"Setup", 0)]
 		[ProviderDisplayName(@"TargetPositioning")]
 		[ProviderDescription(@"TargetPositioning")]
-		[PropertyOrder(3)]
+		[PropertyOrder(2)]
 		public TargetPositioningType TargetPositioning
 		{
 			get { return EffectModuleData.TargetPositioning; }
@@ -124,6 +121,12 @@ namespace VixenModules.Effect.Effect
 				OnPropertyChanged();
 			}
 		}
+
+		[ProviderCategory(@"Setup", 0)]
+		[ProviderDisplayName(@"Orientation")]
+		[ProviderDescription(@"Orientation")]
+		[PropertyOrder(3)]
+		public abstract StringOrientation StringOrientation { get; set; }
 
 		[Browsable(false)]
 		public virtual Color BaseColor { 
@@ -491,7 +494,13 @@ namespace VixenModules.Effect.Effect
 		/// <returns></returns>
 		public static double ScaleValueToCurve(double value, double maximum, double minimum)
 		{
-			return (value + Math.Abs(minimum)) / (maximum - minimum) * 100d;
+			return ConvertRange(minimum, maximum, 0, 100, value);
+		}
+
+		private static double ConvertRange(double originalStart, double originalEnd, double newStart, double newEnd, double value) // value to convert
+		{
+			double scale = (newEnd - newStart) / (originalEnd - originalStart);
+			return newStart + (value - originalStart) * scale;
 		}
 
 		/// <summary>
@@ -504,7 +513,7 @@ namespace VixenModules.Effect.Effect
 		/// <returns></returns>
 		protected static double ScaleCurveToValue(double value, double maximum, double minimum)
 		{
-			return (maximum - minimum) * value / 100d - Math.Abs(minimum);
+			return ConvertRange(0, 100, minimum, maximum, value);
 		}
 
 		protected static bool IsAngleBetween(double a, double b, double n)
