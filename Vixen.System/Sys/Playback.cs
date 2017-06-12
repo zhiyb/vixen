@@ -3,16 +3,19 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading;
 using System.Xml;
+using System.Xml.Serialization;
+using System.Collections.Concurrent;
 using Vixen.Execution;
 using Vixen.Execution.Context;
+using Vixen.Sys.Output;
 using Vixen.Sys.Managers;
 using Vixen.Sys.State.Execution;
-using System.Collections.Concurrent;
 using Vixen.Sys.Instrumentation;
 using Vixen.Module.Media;
 using Vixen.Services;
-using System.Xml.Serialization;
+using Vixen.Commands;
 
 namespace Vixen.Sys
 {
@@ -22,7 +25,7 @@ namespace Vixen.Sys
         
         private static Stopwatch _progress = null;
         private static UInt64 _frame = 0, _update = 0;
-        private static byte[] _data = null;
+		private static ICommand[] _cmd = null;
 
         private static FileStream _fs = null;
         private static BinaryReader _dataIn = null;
@@ -59,7 +62,8 @@ namespace Vixen.Sys
         }
 
         private static Export _export = null;
-        private static Dictionary<string, Controller> _controllers;
+		private static Dictionary<Guid, Controller> _controllers;
+		private static Dictionary<Guid, UInt64> _controllerFrames;
 
         public static bool IsLoaded
         {
@@ -76,15 +80,15 @@ namespace Vixen.Sys
             }
         }
 
-        public static Dictionary<string, Controller> Controllers
+		public static Dictionary<Guid, Controller> Controllers
         {
             get { return _controllers; }
         }
 
-        public static byte[] Data
-        {
-            get { return _data; }
-        }
+		public static ICommand[] Command
+		{
+			get { return _cmd; }
+		}
 
         public static string StatusString
         {
@@ -144,14 +148,21 @@ namespace Vixen.Sys
                 _fs = File.OpenRead(Path.Combine(Path.GetDirectoryName(fileName), _export.OutFile));
                 Logging.Info("Playback Duration: " + _export.Duration);
                 int channels = 0;
-                _controllers = new Dictionary<string, Controller>();
+				_controllers = new Dictionary<Guid, Controller>();
+				_controllerFrames = new Dictionary<Guid, UInt64>();
                 foreach (var controller in _export.Network)
-                {
+				{
+					var dev = VixenSystem.OutputControllers.Devices.Where(x => x.Name == controller.Name).FirstOrDefault();
+					Guid id;
+					if (dev != null) {
+						id = dev.Id;
+						_controllers.Add(id, controller);
+						_controllerFrames.Add(id, 0);
+					}
                     Logging.Info("Playback Controller " + controller.Index + ": " +
-                        controller.Name + " @ " + controller.StartChan + " + " + controller.Channels);
+						"{" + id + "} " + controller.Name + " @ " + controller.StartChan + " + " + controller.Channels);
                     if (controller.StartChan + controller.Channels > channels)
                         channels = controller.StartChan + controller.Channels;
-                    _controllers.Add(controller.Name, controller);
                 }
                 foreach (var filePath in _export.Media)
                 {
@@ -159,15 +170,17 @@ namespace Vixen.Sys
                     ImportMedia(filePath);
                 }
 
-                _frame = 0;
                 _update = 0;
-                _data = new byte[channels];
+				_cmd = new ICommand[channels];
+				for (int i = 0; i != channels; i++)
+					_cmd[i] = new _8BitCommand(0);
                 _dataIn = new BinaryReader(_fs);
                 if (_progress == null)
                     _progress = new Stopwatch();
                 ReadFrame();
                 _updateRate.Reset();
-                _progress.Reset();
+				_progress.Reset();
+				_frame = 0;
                 foreach (IMediaModuleInstance media in _media)
                     media.LoadMedia(_progress.Elapsed);
             }
@@ -194,14 +207,15 @@ namespace Vixen.Sys
                 _controllers = null;
             }
             _dataIn = null;
-            _data = null;
         }
 
         public static event EventHandler PlaybackStarted;
         public static event EventHandler PlaybackEnded;
 
+		private static Thread _thread = null;
+
         public static void Start()
-        {
+		{
             if (!IsLoaded || IsRunning)
                 return;
             foreach (IMediaModuleInstance media in _media)
@@ -211,12 +225,18 @@ namespace Vixen.Sys
             _progress.Start();
             if (PlaybackStarted != null)
                 PlaybackStarted(null, null);
+			_thread = new Thread(_ThreadFunc);
+			_thread.Start();
         }
 
         public static void Stop()
         {
+			if (!IsRunning)
+				return;
             if (_progress != null)
-                _progress.Stop();
+				_progress.Stop();
+			_thread = null;
+			_frame = 0;
             if (_media != null)
                 foreach (IMediaModuleInstance media in _media)
                     media.Stop();
@@ -227,53 +247,64 @@ namespace Vixen.Sys
         // 4 bytes header, 1 byte command (set frame), 1 byte stream
         public static byte[] header = { 0xde, 0xad, 0xbe, 0xef, 0x02, 0x00 };
 
+		private static UInt16 ReadHeader()
+		{
+			var hdr = _dataIn.ReadBytes(header.Length + 2);
+			for (int i = 0; i != header.Length; i++)
+				if (hdr[i] != header[i])
+					throw new Exception("Frame header error @" + (_fs.Position - header.Length + i));
+			return (UInt16)(hdr[header.Length] | (hdr[header.Length + 1] << 8));
+		}
+
         private static void ReadFrame()
         {
-            try
-            {
-                int i = 0;
-                while (i != header.Length)
-                {
-                    byte c = _dataIn.ReadByte();
-                    if (c != header[i++])
-                    {
-                        i = c == header[0] ? 1 : 0;
-                        Logging.Warn("Frame header error @" + _fs.Position);
-                    }
-                }
-                UInt16 channels = _dataIn.ReadUInt16();
-                Array.Copy(_dataIn.ReadBytes(channels), _data, channels);
-                _playbackTime.Set((double)(_frame * _export.Resolution) / 1000.0);
-                _updateRate.Increment();
-            }
-            catch (Exception e)
-            {
-                Stop();
-            }
+			UInt16 channels = ReadHeader();
+			var data = _dataIn.ReadBytes(channels);
+			for (int i = 0; i != channels; i++)
+				((_8BitCommand)_cmd[i]).CommandValue = data[i];
+			_playbackTime.Set((double)(_frame * _export.Resolution) / 1000.0);
+			_frame++;
+            _updateRate.Increment();
         }
 
-        private static Object lockObject = new Object();
+		private static void SkipFrame()
+		{
+			UInt16 channels = ReadHeader();
+			_dataIn.ReadBytes(channels);
+			_frame++;
+		}
 
-        public static void UpdateState(out bool allowed)
-        {
-            lock (lockObject)
-            {
-                if (!IsLoaded)
-                {
-                    allowed = false;
-                    return;
-                }
-                _update++;
-                //bool allowUpdate = _UpdateAdjudicator.PetitionForUpdate();
-                UInt64 itvl = (ulong)_progress.ElapsedMilliseconds / _export.Resolution - _frame;
-                allowed = itvl != 0ul;
-                if (allowed)
-                    while (itvl-- != 0ul)
-                    {
-                        _frame++;
-                        ReadFrame();
-                    }
-            }
+        public static void UpdateState(Guid id, out bool allowed)
+		{
+			allowed = false;
+			if (!IsLoaded)
+				return;
+			if (_controllerFrames[id] != _frame) {
+				_controllerFrames[id] = _frame;
+				allowed = true;
+			}
         }
+
+		private static long _nextUpdateTime;
+
+		private static void _ThreadFunc()
+		{
+			_nextUpdateTime = _progress.ElapsedMilliseconds + (long)_export.Resolution;
+			while (_progress.IsRunning) {
+				var sleep = _nextUpdateTime - _progress.ElapsedMilliseconds;
+				if (sleep > 0)
+					Thread.Sleep((int)sleep);
+				try {
+					if (sleep < 0)
+						SkipFrame();
+					else
+						ReadFrame();
+				} catch (Exception e) {
+					Stop();
+					break;
+				}
+				_nextUpdateTime += (long)_export.Resolution;
+			}
+		}
     }
 }

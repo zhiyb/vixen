@@ -125,19 +125,17 @@ namespace Vixen.Sys.Output
 				_outputMediator.LockOutputs();
 
                 if (Playback.IsRunning) {
-                    Playback.Controller con = Playback.Controllers[Name];
-                    int offset = con.StartChan;
-                    for (int i = 0; i != con.Channels; i++)
-                        commands[i] = new _8BitCommand(Playback.Data[offset + i]);
+					Playback.Controller con = Playback.Controllers[Id];
+					Array.Copy(Playback.Command, con.StartChan, commands, 0, con.Channels);
 				} else if (VixenSystem.Contexts != null) {
                     int total = 0;
                     for (int i = 0; i < OutputCount; i++) {
                         commands[i] = GenerateOutputCommand(Outputs[i]);
                         if (commands[i] != null)
                             total++;
-                    }
-                }
-                ControllerModule.UpdateState(0, commands);
+					}
+				}
+				ControllerModule.UpdateState(0, commands);
             }
 			catch (Exception e)
 			{

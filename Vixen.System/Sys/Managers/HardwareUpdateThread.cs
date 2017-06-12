@@ -98,7 +98,7 @@ namespace Vixen.Sys.Managers
 
 					bool allowed = false;
                     if (Playback.IsRunning)
-                        Playback.UpdateState(out allowed);
+						Playback.UpdateState(OutputDevice.Id, out allowed);
                     else
 					    Execution.UpdateState(out allowed);
 					long execMs = _localTime.ElapsedMilliseconds - nowMs;
