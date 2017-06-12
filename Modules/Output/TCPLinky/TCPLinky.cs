@@ -17,8 +17,7 @@ namespace VixenModules.Output.TCPLinky
     internal class TCPLinky : ControllerModuleInstanceBase
     {
         private static NLog.Logger Logging = NLog.LogManager.GetCurrentClassLogger();
-        private Dictionary<int, byte> _lastValues;
-        private Dictionary<int, int> _nullCommands;
+        private byte[] _lastValues;
         private TCPLinkyData _data;
         private TcpClient _tcpClient;
         private NetworkStream _networkStream;
@@ -30,14 +29,14 @@ namespace VixenModules.Output.TCPLinky
         public static byte HEADER_3 = 0xBE;
         public static byte HEADER_4 = 0xEF;
 
-        public static byte COMMAND_SET_VALUES = 0x01;
+		public static byte COMMAND_SET_VALUES = 0x01;
 
+		// 4 bytes header, 1 byte command (set frame), 1 byte stream
+		public static byte[] header = {HEADER_1, HEADER_2, HEADER_3, HEADER_4, COMMAND_SET_VALUES, 0};
 
         public TCPLinky()
         {
             Logging.Trace("Constructor()");
-            _lastValues = new Dictionary<int, byte>();
-            _nullCommands = new Dictionary<int, int>();
             _data = new TCPLinkyData();
             _timeoutStopwatch = new Stopwatch();
             DataPolicyFactory = new DataPolicyFactory();
@@ -46,12 +45,7 @@ namespace VixenModules.Output.TCPLinky
         private void _setupDataBuffers()
         {
             Logging.Trace(LogTag + "_setupDataBuffers()");
-            for (int i = 0; i < this.OutputCount; i++) {
-                if (!_lastValues.ContainsKey(i))
-                    _lastValues[i] = 0;
-                if (!_nullCommands.ContainsKey(i))
-                    _nullCommands[i] = 0;
-            }
+			_lastValues = new byte[_outputCount];
         }
 
         public override int OutputCount
@@ -145,8 +139,6 @@ namespace VixenModules.Output.TCPLinky
             }
 
             // reset the last values. That means that *any* values that come in will be 'new', and be sent out.
-            _lastValues = new Dictionary<int, byte>();
-            _nullCommands = new Dictionary<int, int>();
             _setupDataBuffers();
 
             _timeoutStopwatch.Reset();
@@ -214,7 +206,7 @@ namespace VixenModules.Output.TCPLinky
                 }
             }
 
-            // build up transmission packet
+			// build up transmission packet
             byte[] data = new byte[4 + 1 + 2 + outputStates.Length * 3];
             int totalPacketLength = 0;
 
@@ -226,55 +218,37 @@ namespace VixenModules.Output.TCPLinky
             //				2 bytes for the number of channels following (LOW byte first)
             //				3 bytes (repeated): channel (LOW byte first), value.
 
-            data[totalPacketLength++] = HEADER_1;
-            data[totalPacketLength++] = HEADER_2;
-            data[totalPacketLength++] = HEADER_3;
-            data[totalPacketLength++] = HEADER_4;
-            data[totalPacketLength++] = COMMAND_SET_VALUES;
+			Array.Copy(header, data, header.Length);
+			totalPacketLength += header.Length;
 
-            data[totalPacketLength++] = (byte)_data.Stream;
-            int lengthPosL = totalPacketLength++;
-            int lengthPosH = totalPacketLength++;
-            int totalChannels = 0;
+            //data[totalPacketLength++] = (byte)_data.Stream;
+            int lengthPos = totalPacketLength;
+			int totalChannels = 0;
+			totalPacketLength += 2;
 
             bool changed = false;
-            for (int i = 0; i < outputStates.Length; i++) {
-                byte newValue = 0;
-
-                if (outputStates[i] != null) {
-                    _8BitCommand command = outputStates[i] as _8BitCommand;
-                    if (command == null)
-                        continue;
-                    newValue = command.CommandValue;
-                    _nullCommands[i] = 0;
-                } else {
-                    // it was a null command. We should turn it off; however, to avoid some potentially nasty flickering,
-                    // we will keep track of the null commands for this output, and ignore the first one. Any after that will
-                    // actually be sent through.
-                    if (_nullCommands[i] == 0) {
-                        _nullCommands[i] = 1;
-                        newValue = _lastValues[i];
-                    }
-                }
-
+			int channels = outputStates.Length;
+			for (int i = 0; i < channels; i++) {
+				if (outputStates[i] == null)
+					continue;
+				byte newValue = ((_8BitCommand)outputStates[i]).CommandValue;
                 if (_lastValues[i] != newValue) {
-                    changed = true;
-                    data[totalPacketLength++] = (byte)(i & 0xff);
-                    data[totalPacketLength++] = (byte)((i >> 8) & 0xff);
+					changed = true;
+                    data[totalPacketLength++] = (byte)i;
+                    data[totalPacketLength++] = (byte)(i >> 8);
                     data[totalPacketLength++] = newValue;
                     _lastValues[i] = newValue;
                     totalChannels++;
                 }
             }
 
-            //int totalData = totalPacketLength - lengthPosL - 1;
-            data[lengthPosL] = (byte)(totalChannels & 0xFF);
-            data[lengthPosH] = (byte)((totalChannels >> 8) & 0xFF);
+			data[lengthPos] = (byte)totalChannels;
+			data[lengthPos + 1] = (byte)(totalChannels >> 8);
 
             // don't bother writing anything if we haven't acutally *changed* any values...
             // (also, send at least a 'null' update command every 10 seconds. I think there's a bug in the micro
             // firmware; it doesn't seem to close network connections properly. Need to diagnose more, later.)
-            if (changed || _timeoutStopwatch.ElapsedMilliseconds >= 10000) {
+            if (true || changed || _timeoutStopwatch.ElapsedMilliseconds >= 10000) {
                 try {
                     _timeoutStopwatch.Restart();
                     if (FakingIt()) {
