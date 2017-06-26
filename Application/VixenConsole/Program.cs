@@ -26,13 +26,38 @@ namespace VixenConsole
 		private static void Main(string[] args)
 		{
 			_stopSignal = new ManualResetEvent(false);
-			VixenSystem.LoadMinimal();
-			Type t = Type.GetType("VixenModules.Output.TCPLinky.TCPLinkyData, TCPLinky");
-			Logging.Fatal("Type " + (t == null ? "null" : "exists"));
 			Playback.PlaybackEnded += PlaybackEnded;
-			if (args.Length >= 1) {
-				switch (args[0]) {
+
+			Profiler prof = null;
+			bool uPlayback = false, uController = false;
+
+			var e = args.GetEnumerator();
+			while (e.MoveNext()) {
+				switch (e.Current.ToString()) {
+				case "-p":
+					if (!e.MoveNext())
+						break;
+					long itvl;
+					if (!long.TryParse(e.Current.ToString(), out itvl))
+						break;
+					Logging.Info("Starting profiler with interval " + itvl + "ms ...");
+					prof = new Profiler(itvl);
+					prof.Start();
+					break;
+				case "-u":
+					if (!e.MoveNext())
+						break;
+					switch (e.Current.ToString()) {
+					case "playback":
+						uPlayback = true;
+						break;
+					case "controller":
+						uController = true;
+						break;
+					}
+					break;
 				case "tidy":
+					VixenSystem.LoadMinimal();
 					Logging.Info("Saving configrations...");
 					var task = VixenSystem.SaveSystemAndModuleConfigAsync();
 					task.Wait();
@@ -40,32 +65,44 @@ namespace VixenConsole
 						Logging.Info("Configuration saved");
 					break;
 				case "controller":
-					if (args.Length >= 2) {
-						switch (args[1]) {
-						case "list":
-							_ListControllerModules();
-							break;
-						case "config":
-							_ListModuleConfigs();
-							break;
-						}
+					if (!e.MoveNext())
+						break;
+					switch (e.Current.ToString()) {
+					case "list":
+						VixenSystem.LoadMinimal();
+						_ListControllerModules();
+						break;
+					case "config":
+						VixenSystem.LoadMinimal();
+						_ListModuleConfigs();
+						break;
 					}
 					break;
 				case "start":
-					if (args.Length >= 2) {
-						Execution.OpenExecution();
-						for (int i = 1; i < args.Length; i++) {
-							Playback.Load(args[i]);
+					VixenSystem.LoadMinimal();
+					if (uController)
+						foreach (var c in VixenSystem.OutputControllers)
+							c.UpdateInterval = 0;
+					Execution.OpenExecution();
+					while (e.MoveNext()) {
+						Playback.Load(e.Current.ToString());
+						if (uPlayback)
+							Playback.Test();
+						else
 							Playback.Start();
-							if (Playback.IsRunning) {
-								_stopSignal.WaitOne();
-								_stopSignal.Reset();
-							}
+						if (Playback.IsRunning) {
+							_stopSignal.WaitOne();
+							_stopSignal.Reset();
 						}
-						Execution.CloseExecution();
 					}
+					Execution.CloseExecution();
 					break;
 				}
+			}
+
+			if (prof != null) {
+				prof.Stop();
+				prof.Log();
 			}
 		}
 

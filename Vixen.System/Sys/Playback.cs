@@ -242,7 +242,13 @@ namespace Vixen.Sys
                     media.Stop();
             if (PlaybackEnded != null)
                 PlaybackEnded(null, null);
-        }
+		}
+
+		public static void Test()
+		{
+			_export.Resolution = 0;
+			Start();
+		}
 
         // 4 bytes header, 1 byte command (set frame), 1 byte stream
         public static byte[] header = { 0xde, 0xad, 0xbe, 0xef, 0x02, 0x00 };
@@ -292,6 +298,8 @@ namespace Vixen.Sys
 			_nextUpdateTime = _progress.ElapsedMilliseconds + (long)_export.Resolution;
 			while (_progress.IsRunning) {
 				var sleep = _nextUpdateTime - _progress.ElapsedMilliseconds;
+				if (_export.Resolution == 0)
+					sleep = 0;
 				if (sleep > 0)
 					Thread.Sleep((int)sleep);
 				try {
