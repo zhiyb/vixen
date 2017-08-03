@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -17,6 +18,28 @@ namespace Common.Controls.Theme
 		{
 			e.TextColor = ThemeColorTable.ForeColor;
 			base.OnRenderItemText(e);
+		}
+		protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
+		{
+			ToolStripItem toolStripItem = e.Item;
+			//e.ArrowColor = toolStripItem.Enabled ? ThemeColorTable.ForeColor : SystemColors.ControlDark;
+			if (toolStripItem is ToolStripDropDownItem)
+			{
+				Rectangle r = e.ArrowRectangle;
+				List<Point> points = new List<Point>();
+				points.Add(new Point(r.Left - 2, r.Height / 2 - 3));
+				points.Add(new Point(r.Right + 2, r.Height / 2 - 3));
+				points.Add(new Point(r.Left + (r.Width / 2),
+					r.Height / 2 + 3));
+				e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+				e.Graphics.FillPolygon(new SolidBrush(ThemeColorTable.ForeColor), points.ToArray());
+				e.ArrowColor = toolStripItem.Enabled ? ThemeColorTable.ButtonTextColor : SystemColors.ControlDark;
+
+			}
+			else
+			{
+				base.OnRenderArrow(e);
+			}
 		}
 
 		protected override void OnRenderSplitButtonBackground(ToolStripItemRenderEventArgs e)
@@ -114,19 +137,9 @@ namespace Common.Controls.Theme
 				RenderSelectedButtonFill(bounds, g);
 			}
 			
-			GraphicsPath path = new GraphicsPath();
-			path.AddEllipse(bounds.X, bounds.Y, bounds.Width - 1, bounds.Height - 1);
-			using (PathGradientBrush pthGrBrush = new PathGradientBrush(path))
-			{
-				// Set the color at the center of the path.
-				pthGrBrush.CenterColor = ColorTable.ButtonPressedGradientBegin;
-
-				Color[] colors = { item.Selected?ColorTable.ButtonSelectedGradientEnd:ColorTable.ButtonPressedGradientEnd };
-				pthGrBrush.SurroundColors = colors;
-
-				g.FillEllipse(pthGrBrush, bounds.X, bounds.Y, bounds.Width - 1, bounds.Height - 1);
-			}
-			
+			// Set the color of border when item is selected.
+			Pen pen = new Pen(ThemeColorTable.ForeColor);
+			g.DrawRectangle(pen, bounds.X, bounds.Y, bounds.Width - 1, bounds.Height - 1);
 			
 		}
 
