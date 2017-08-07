@@ -66,6 +66,7 @@ namespace Vixen.Sys
 		{
 			public enum Types {Invalid, Sequence, Video};
 			public Types type;
+			public bool audio;
 			public IntPtr data;
 			public int channels;
 			public byte[] chdata;
@@ -183,20 +184,28 @@ namespace Vixen.Sys
 
 		private static void LoadVideo(ref Info info, string fileName)
 		{
-			Logging.Info("Playback loading video: " + fileName + ", codec version " + PlaybackCodec.version());
 			if (!PlaybackCodec.initialised) {
-				PlaybackCodec.init();
+				PlaybackCodec.codec_init();
 				PlaybackCodec.initialised = true;
 			}
+			Logging.Info("Playback loading video: " + fileName + ", codec version " + PlaybackCodec.codec_version());
 			// Open video file for decoding input
 			IntPtr cmtp = new IntPtr();
 			int gota, gotv;
-			IntPtr data = PlaybackCodec.decode_open_input(fileName, ref cmtp, out gota, out gotv);
+			IntPtr data = PlaybackCodec.codec_alloc();
 			if (data == IntPtr.Zero)
+				return;
+			if (PlaybackCodec.decode_open_input(data, fileName, ref cmtp, out gota, out gotv) == 0)
 				return;
 			if (gotv == 0) {
 				PlaybackCodec.decode_close(data);
 				return;
+			}
+			info.audio = false;
+			if (gota != 0) {
+				if (PlaybackCodec.fmod_init(data) == 0)
+					if (PlaybackCodec.fmod_create_stream(data, data) == 0)
+						info.audio = true;
 			}
 			string strXml = Marshal.PtrToStringAnsi(cmtp);
 
@@ -299,7 +308,9 @@ namespace Vixen.Sys
 			if (!IsRunning)
 				return;
 			if (_info.type == Info.Types.Video) {
+				PlaybackCodec.fmod_close(_info.data);
 				PlaybackCodec.decode_close(_info.data);
+				PlaybackCodec.codec_free(_info.data);
 				_info.type = Info.Types.Invalid;
 			}
             if (_progress != null)
@@ -373,7 +384,8 @@ namespace Vixen.Sys
 				if (got == 0)
 					throw new Exception("End of file");
 				if (video == 0) {
-					PlaybackCodec.decode_free_packet(pkt);
+					IntPtr frame = PlaybackCodec.decode_audio_frame(_info.data, pkt);
+					PlaybackCodec.fmod_queue_frame(_info.data, frame);
 					continue;
 				}
 				return pkt;
@@ -395,6 +407,8 @@ namespace Vixen.Sys
 
 		private static void _ThreadFunc()
 		{
+			if (_info.audio)
+				PlaybackCodec.fmod_play(_info.data);
 			_nextUpdateTime = _progress.ElapsedMilliseconds + (long)_export.Resolution;
 			while (_progress.IsRunning) {
 				var sleep = _nextUpdateTime - _progress.ElapsedMilliseconds;
@@ -412,6 +426,7 @@ namespace Vixen.Sys
 					Logging.Warn("Playback stopping: ", e.Message);
 					break;
 				}
+				PlaybackCodec.fmod_update(_info.data);
 				_nextUpdateTime += (long)_export.Resolution;
 			}
 		}
