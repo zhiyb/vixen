@@ -35,6 +35,7 @@
     <Compile Include="IntervalUpdateSignaler.cs" />
     <Compile Include="IOutputDeviceUpdateSignaler.cs" />
     <Compile Include="TCPLinky.cs" />
+    <Compile Include="profiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

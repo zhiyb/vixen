@@ -6,7 +6,7 @@ using Vixen.Sys.Output;
 
 namespace VixenLinky
 {
-	internal static class Program
+	public static class Program
 	{
 		private static NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 		private static IOutputDeviceUpdateSignaler _updateSignaler;
@@ -18,6 +18,8 @@ namespace VixenLinky
 			get { return _data; }
 		}
 
+		public static Profiler prof = null;
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -26,8 +28,8 @@ namespace VixenLinky
 		{
 			_updateSignalerSync = new AutoResetEvent(false);
 			_updateSignaler = _CreateOutputDeviceUpdateSignaler();
-			if (args.Length != 7) {
-				log.Fatal(new ArgumentException(), "Expected 7 arguments");
+			if (args.Length != 8) {
+				log.Fatal(new ArgumentException(), "Expected 8 arguments: file interval host port interval start channels prof");
 				Environment.Exit(1);
 			}
 
@@ -43,6 +45,11 @@ namespace VixenLinky
 				log.Fatal(e);
 				Environment.Exit(1);
 			}
+
+			long itvl = 500;
+			long.TryParse(args[7], out itvl);
+			prof = new Profiler(itvl);
+			prof.Start();
 
 			TCPLinky controller = null;
 			log.Info("Starting controller");
@@ -67,6 +74,7 @@ namespace VixenLinky
 				while (true) {
 					//log.Info("Loop event");
 					Array.Copy(ReadFrame(dataIn), _data, _data.Length);
+					prof.FileCount++;
 
 					// Wait for the next go 'round
 					_WaitOnSignal(_updateSignaler);
@@ -78,6 +86,8 @@ namespace VixenLinky
 
 			controller.Stop();
 			controller.WaitForFinish();
+			prof.Stop();
+			prof.Log();
 		}
 
 		private static BinaryReader Load(string path)

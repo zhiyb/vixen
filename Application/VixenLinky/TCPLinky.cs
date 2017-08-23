@@ -180,6 +180,7 @@ namespace Vixen
 			try {
 				while (!_stop) {
 					UpdateState();
+					VixenLinky.Program.prof.ControllerCount++;
 
 					// Wait for the next go 'round
 					_WaitOnSignal(_updateSignaler);
