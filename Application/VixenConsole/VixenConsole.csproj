@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>VixenConsole</RootNamespace>
     <AssemblyName>VixenConsole</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,15 +31,11 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Reference Include="NLog">
-      <HintPath>..\..\packages\NLog.4.4.9\lib\net45\NLog.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="NLog.config" />
-    <None Include="NLog.xsd" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Vixen.System\Vixen.csproj">
@@ -49,5 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="profiler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="NLog">
+      <HintPath>..\..\packages\NLog.4.4.1\lib\net45\NLog.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
