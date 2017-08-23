@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -101,7 +102,7 @@ namespace Vixen.IO.Xml.ModuleStore
 							continue;
 						}
 						MessageBox.Show(string.Format("A sequence path {0} referenced in a Show is unable to be migrated correctly."+
-								" Check your Shows and correct any sequence paths necessary to reference sequences from the profile sequence folder.",fileNameElement.Value), "Show Migration", MessageBoxButton.OK, MessageBoxImage.Warning);
+								" Check your Shows and correct any sequence paths necessary to reference sequences from the profile sequence folder.",fileNameElement.Value), "Show Migration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					}
 					
 					FileSystemInfo sequenceDirectory = new DirectoryInfo(SequenceService.SequenceDirectory);
@@ -125,7 +126,7 @@ namespace Vixen.IO.Xml.ModuleStore
 				if (File.Exists(newPath))
 				{
 					MessageBox.Show(string.Format("A sequence path {0} referenced in a Show was not pointed to a sequence in the current profile sequence folder. Another sequence in the current profile sequence folder has the same name so it could not be migrated." + 
-						" The Show will be pointed to the sequence folder version.\n\nPlease verify your Show is using the correct version.", filePath), "Show Migration", MessageBoxButton.OK, MessageBoxImage.Warning);
+						" The Show will be pointed to the sequence folder version.\n\nPlease verify your Show is using the correct version.", filePath), "Show Migration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					success = true;
 				}
 				else if (File.Exists(filePath))
@@ -133,7 +134,7 @@ namespace Vixen.IO.Xml.ModuleStore
 					File.Copy(filePath, newPath);
 					success = true;
 					MessageBox.Show(string.Format("A sequence path {0} referenced in a Show was not in the current profile." +
-								" It was copied into the local profile sequence folder as part of a Scheduler migration and the Show was updated.", filePath), "Show Migration", MessageBoxButton.OK, MessageBoxImage.Warning);
+								" It was copied into the local profile sequence folder as part of a Scheduler migration and the Show was updated.", filePath), "Show Migration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 			}
 			

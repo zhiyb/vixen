@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace Vixen.IO.Xml
@@ -50,8 +51,8 @@ namespace Vixen.IO.Xml
 			if (!success)
 			{
 				var result = MessageBox.Show("Config backups failed prior to save! Possible file system issue!", "Warning!",
-					MessageBoxButton.OKCancel);
-				if (result == MessageBoxResult.Cancel)
+					MessageBoxButtons.OKCancel);
+				if (result == DialogResult.Cancel)
 				{
 					return;
 				}

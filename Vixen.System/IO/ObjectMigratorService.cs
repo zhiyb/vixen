@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using Common.Controls;
 
 namespace Vixen.IO
@@ -42,7 +43,7 @@ namespace Vixen.IO
 		{
 			if (contentVersion > targetVersion)
 			{
-				MessageBox.Show("You are attempting to open a configuration from a newer version of Vixen that may not be compatible.", "Migration", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show("You are attempting to open a configuration from a newer version of Vixen that may not be compatible.", "Migration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			return contentVersion < targetVersion;
 		}

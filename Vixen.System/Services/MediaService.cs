@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 using Vixen.Module.Media;
 using Vixen.Sys;
 using Vixen.Sys.Attribute;
@@ -33,9 +34,9 @@ namespace Vixen.Services
 				}
 				else
 				{
-					MessageBoxResult result = MessageBox.Show("A Media file with the same name already exists in the profile. Replace Y/N?", "Replace?",
-						MessageBoxButton.YesNo);
-					if (result == MessageBoxResult.Yes)
+					DialogResult result = MessageBox.Show("A Media file with the same name already exists in the profile. Replace Y/N?", "Replace?",
+						MessageBoxButtons.YesNo);
+					if (result == DialogResult.Yes)
 					{
 						File.Copy(filePath, newPath, true);
 					}
