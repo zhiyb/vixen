@@ -426,7 +426,8 @@ namespace Vixen.Sys
 					Logging.Warn("Playback stopping: ", e.Message);
 					break;
 				}
-				PlaybackCodec.fmod_update(_info.data);
+				if (_info.type == Info.Types.Video)
+					PlaybackCodec.fmod_update(_info.data);
 				_nextUpdateTime += (long)_export.Resolution;
 			}
 		}
