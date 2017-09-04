@@ -27,11 +27,12 @@ namespace Vixen.Sys
         private static Stopwatch _progress = null;
         private static UInt64 _frame = 0, _update = 0;
 		private static ICommand[] _cmd = null;
+		private static long _nextUpdateTime;
 
         private static FileStream _fs = null;
         private static BinaryReader _dataIn = null;
 
-        //private static List<IMediaModuleInstance> _media = null;
+        private static List<IMediaModuleInstance> _media = null;
 
         [XmlRoot("Vixen3_Export")]
         public class Export
@@ -67,6 +68,7 @@ namespace Vixen.Sys
 			public enum Types {Invalid, Sequence, Video};
 			public Types type;
 			public bool audio;
+			public long audioTime;
 			public IntPtr data;
 			public int channels;
 			public byte[] chdata;
@@ -118,14 +120,47 @@ namespace Vixen.Sys
         private static RefreshRateValue _updateRate;
         private static TimeValue _playbackTime = null;
 
-        public static void ImportMedia(string filePath)
+		private static void ImportMedia(ref Info info, string sequencePath, string filePath)
         {
             /*IMediaModuleInstance media = MediaService.Instance.ImportMedia(filePath);
-            if (media != null)
-            {
-                media.LoadMedia(TimeSpan.Zero);
-                _media.Add(media);
-            }*/
+			if (media != null) {
+				media.LoadMedia(TimeSpan.Zero);
+				_media.Add(media);
+			} else*/ {
+				// Find media file
+				if (!File.Exists(filePath)) {
+					var fileName = Path.GetFileName(filePath);
+					filePath = Path.Combine(Path.GetDirectoryName(sequencePath), fileName);
+					if (!File.Exists(filePath)) {
+						filePath = Path.Combine(MediaService.MediaDirectory, fileName);
+						if (!File.Exists(filePath))
+							return;
+					}
+				}
+
+				// Try use PlaybackCodec
+				IntPtr cmtp = new IntPtr();
+				int gota, gotv;
+				IntPtr data = PlaybackCodec.codec_alloc();
+				if (data == IntPtr.Zero)
+					return;
+				if (PlaybackCodec.decode_open_input(data, filePath, ref cmtp, out gota, out gotv) == 0)
+					return;
+				if (gota == 0) {
+					PlaybackCodec.decode_close(data);
+					return;
+				}
+				CodecClose(ref info);
+				info.audio = false;
+				info.audioTime = 0;
+				if (PlaybackCodec.fmod_init(data) == 0)
+					if (PlaybackCodec.fmod_create_stream(data, data) == 0) {
+						info.audio = true;
+						info.data = data;
+						return;
+					}
+				PlaybackCodec.decode_close(data);
+			}
         }
 
 		private static int LoadExportInfo()
@@ -165,10 +200,11 @@ namespace Vixen.Sys
 
 				_fs = File.OpenRead(Path.Combine(Path.GetDirectoryName(fileName), _export.OutFile));
 				_dataIn = new BinaryReader(_fs);
+				info.audio = false;
 				foreach (var filePath in _export.Media)
 				{
 					Logging.Info("Media file: " + filePath);
-					ImportMedia(filePath);
+					ImportMedia(ref info, fileName, filePath);
 				}
 
 				info.channels = LoadExportInfo();
@@ -184,10 +220,6 @@ namespace Vixen.Sys
 
 		private static void LoadVideo(ref Info info, string fileName)
 		{
-			if (!PlaybackCodec.initialised) {
-				PlaybackCodec.codec_init();
-				PlaybackCodec.initialised = true;
-			}
 			Logging.Info("Playback loading video: " + fileName + ", codec version " + PlaybackCodec.codec_version());
 			// Open video file for decoding input
 			IntPtr cmtp = new IntPtr();
@@ -234,8 +266,8 @@ namespace Vixen.Sys
 			_updateRate.Reset();
 			_progress.Reset();
 			_frame = 0;
-			//foreach (IMediaModuleInstance media in _media)
-			//    media.LoadMedia(_progress.Elapsed);
+			foreach (IMediaModuleInstance media in _media)
+			    media.LoadMedia(_progress.Elapsed);
 		}
 
 		public static void Load(string fileName)
@@ -251,14 +283,20 @@ namespace Vixen.Sys
                 VixenSystem.Instrumentation.AddValue(_playbackTime);
             }
 
-            /*if (_media == null)
-                _media = new List<IMediaModuleInstance>();*/
+			if (!PlaybackCodec.initialised) {
+				PlaybackCodec.codec_init();
+				PlaybackCodec.initialised = true;
+			}
+
+            if (_media == null)
+                _media = new List<IMediaModuleInstance>();
 
             if (IsLoaded)
                 Unload();
 
             if (fileName == null)
 				return;
+			CodecClose(ref _info);
 			if (Path.GetExtension(fileName) == ".xml")
 				LoadSequence(ref _info, fileName);
 			else
@@ -268,8 +306,8 @@ namespace Vixen.Sys
         public static void Unload()
         {
             Stop();
-            /*if (_media != null)
-                _media.Clear();*/
+            if (_media != null)
+                _media.Clear();
             if (_fs != null)
             {
                 _fs.Close();
@@ -292,11 +330,11 @@ namespace Vixen.Sys
 		{
             if (!IsLoaded || IsRunning)
                 return;
-            /*foreach (IMediaModuleInstance media in _media)
+            foreach (IMediaModuleInstance media in _media)
                 media.LoadMedia(_progress.Elapsed);
             foreach (IMediaModuleInstance media in _media)
-                media.Start();*/
-            _progress.Start();
+				media.Start();
+			_progress.Start();
             if (PlaybackStarted != null)
                 PlaybackStarted(null, null);
 			_thread = new Thread(_ThreadFunc);
@@ -307,21 +345,28 @@ namespace Vixen.Sys
         {
 			if (!IsRunning)
 				return;
-			if (_info.type == Info.Types.Video) {
-				PlaybackCodec.fmod_close(_info.data);
-				PlaybackCodec.decode_close(_info.data);
-				PlaybackCodec.codec_free(_info.data);
+			CodecClose(ref _info);
+			if (_info.type == Info.Types.Video)
 				_info.type = Info.Types.Invalid;
-			}
             if (_progress != null)
 				_progress.Stop();
 			_thread = null;
 			_frame = 0;
-            /*if (_media != null)
+            if (_media != null)
                 foreach (IMediaModuleInstance media in _media)
-                    media.Stop();*/
+                    media.Stop();
             if (PlaybackEnded != null)
                 PlaybackEnded(null, null);
+		}
+
+		private static void CodecClose(ref Info info)
+		{
+			if (info.data != IntPtr.Zero) {
+				PlaybackCodec.fmod_close(info.data);
+				PlaybackCodec.decode_close(info.data);
+				PlaybackCodec.codec_free(info.data);
+				info.data = IntPtr.Zero;
+			}
 		}
 
 		public static void Test()
@@ -342,6 +387,22 @@ namespace Vixen.Sys
 			return (UInt16)(hdr[header.Length] | (hdr[header.Length + 1] << 8));
 		}
 
+		private static void ReadAudioFrame()
+		{
+			if (_info.audio && _nextUpdateTime >= _info.audioTime) {
+				int got = 0, video = 0;
+				IntPtr pkt = PlaybackCodec.decode_read_packet(_info.data, out got, out video);
+				if (got != 0) {	
+					if (video == 0) {
+						IntPtr frame = PlaybackCodec.decode_audio_frame(_info.data, pkt);
+						PlaybackCodec.fmod_queue_frame(_info.data, frame);
+						_info.audioTime += PlaybackCodec.decode_audio_frame_length(frame);
+					} else
+						PlaybackCodec.decode_free_packet(pkt);
+				}
+			}
+		}
+
         private static void ReadFrame()
         {
 			if (_info.type == Info.Types.Sequence) {
@@ -349,6 +410,7 @@ namespace Vixen.Sys
 				var data = _dataIn.ReadBytes(channels);
 				for (int i = 0; i != channels; i++)
 					((_8BitCommand)_cmd[i]).CommandValue = data[i];
+				ReadAudioFrame();
 			} else if (_info.type == Info.Types.Video) {
 				IntPtr frame = PlaybackCodec.decode_video_frame(_info.data, ReadVideoPacket());
 				if (frame != IntPtr.Zero) {
@@ -369,6 +431,7 @@ namespace Vixen.Sys
 			if (_info.type == Info.Types.Sequence) {
 				UInt16 channels = ReadHeader();
 				_dataIn.ReadBytes(channels);
+				ReadAudioFrame();
 			} else if (_info.type == Info.Types.Video) {
 				PlaybackCodec.decode_free_packet(ReadVideoPacket());
 			} else
@@ -403,13 +466,12 @@ namespace Vixen.Sys
 			}
         }
 
-		private static long _nextUpdateTime;
-
 		private static void _ThreadFunc()
 		{
 			if (_info.audio)
 				PlaybackCodec.fmod_play(_info.data);
-			_nextUpdateTime = _progress.ElapsedMilliseconds + (long)_export.Resolution;
+			_nextUpdateTime = (long)_export.Resolution;
+			_progress.Restart();
 			while (_progress.IsRunning) {
 				var sleep = _nextUpdateTime - _progress.ElapsedMilliseconds;
 				if (_export.Resolution == 0)
@@ -426,7 +488,7 @@ namespace Vixen.Sys
 					Logging.Warn("Playback stopping: ", e.Message);
 					break;
 				}
-				if (_info.type == Info.Types.Video)
+				if (_info.data != IntPtr.Zero)
 					PlaybackCodec.fmod_update(_info.data);
 				_nextUpdateTime += (long)_export.Resolution;
 			}
