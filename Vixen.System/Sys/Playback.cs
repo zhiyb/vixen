@@ -174,7 +174,7 @@ namespace Vixen.Sys
 			foreach (var controller in _export.Network)
 			{
 				var dev = VixenSystem.OutputControllers.Devices.Where(x => x.Name == controller.Name).FirstOrDefault();
-				Guid id;
+				Guid id = Guid.Empty;
 				if (dev != null) {
 					id = dev.Id;
 					_controllers.Add(id, controller);
