@@ -114,7 +114,7 @@
 			// 
 			this.resolutionComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
 			this.resolutionComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.resolutionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.resolutionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
 			this.resolutionComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.resolutionComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(221)))), ((int)(((byte)(221)))));
 			this.resolutionComboBox.FormattingEnabled = true;
