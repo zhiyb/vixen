@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Windows;
 using System.Windows.Forms;
 using Vixen.Module.Media;
 using Vixen.Sys;
