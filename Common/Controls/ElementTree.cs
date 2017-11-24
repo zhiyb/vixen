@@ -7,6 +7,7 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
+using Common.Controls.NameGeneration;
 using Common.Controls.Theme;
 using Vixen.Module.Property;
 using Vixen.Services;
@@ -592,6 +593,33 @@ namespace Common.Controls
 			return false;
 		}
 
+		public bool PatternRenameSelectedGroup()
+		{
+			if (SelectedTreeNodes.Count == 0)
+				return false;
+
+			List<string> oldNames = new List<string>(treeview.SelectedNodes.Select(x => x.Tag as ElementNode).Select(x => x.Name).ToArray());
+			SubstitutionRenamer renamer = new SubstitutionRenamer(oldNames);
+			if (renamer.ShowDialog() == DialogResult.OK)
+			{
+				for (int i = 0; i < treeview.SelectedNodes.Count; i++)
+				{
+					if (i >= renamer.Names.Count)
+					{
+						Logging.Warn("ConfigElements: bulk renaming elements, and ran out of new names!");
+						break;
+					}
+					VixenSystem.Nodes.RenameNode((treeview.SelectedNodes[i].Tag as ElementNode), renamer.Names[i]);
+				}
+
+				PopulateNodeTree();
+
+				return true;
+			}
+
+			return false;
+		}
+
 		public bool RenameSelectedElements()
 		{
 			if (SelectedTreeNodes.Count == 0)
@@ -657,7 +685,9 @@ namespace Common.Controls
 			createGroupWithNodesToolStripMenuItem.Enabled = (SelectedTreeNodes.Count > 0);
 			deleteNodesToolStripMenuItem.Enabled = (SelectedTreeNodes.Count > 0);
 			renameNodesToolStripMenuItem.Enabled = (SelectedTreeNodes.Count > 0);
+			patternRenameToolStripMenuItem.Enabled = (SelectedTreeNodes.Count > 0);
 			reverseElementsToolStripMenuItem.Enabled = (SelectedTreeNodes.Count > 1) && (treeview.CanReverseElements());
+			sortToolStripMenuItem.Enabled = CanSortSelected();
 		}
 
 		// TODO: use the system clipboard properly; I couldn't get it working in the sequencer, so I'm not
@@ -901,6 +931,11 @@ namespace Common.Controls
 			}
 		}
 
+		private void patternRenameToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			PatternRenameSelectedGroup();
+		}
+
 		private void collapseAllToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			treeview.CollapseAll();
@@ -918,6 +953,40 @@ namespace Common.Controls
 						
 			PopulateNodeTree();
 		}
+
+		private void sortToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SortNodes();
+		}
+
+		private bool CanSortSelected()
+		{
+			if (SelectedTreeNodes.Count != 1) return false;
+			var sourceNode = SelectedTreeNodes[0].Tag as ElementNode;
+			if (sourceNode != null && !sourceNode.IsLeaf) return true;
+
+			return false;
+		}
+
+		private void SortNodes()
+		{
+			if (SelectedTreeNodes.Count != 1) return;
+			var sourceNode = SelectedTreeNodes[0].Tag as ElementNode;
+			if (sourceNode != null && !sourceNode.IsLeaf)
+			{
+				var nodes = sourceNode.Children.OrderBy(n => n.Name);
+				var index = 0;
+				foreach (var node in nodes)
+				{
+					VixenSystem.Nodes.MoveNode(node, sourceNode, sourceNode, index);
+					index++;
+				}
+
+				PopulateNodeTree();
+			}
+		}
+
+
 		#endregion
 
 

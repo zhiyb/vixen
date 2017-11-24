@@ -127,7 +127,6 @@ namespace VixenModules.Effect.Alternating
 		[ProviderCategory(@"Color", 2)]
 		[ProviderDisplayName(@"GradientLevelPair")]
 		[ProviderDescription(@"GradientLevelPair")]
-		[MergableProperty(false)]
 		public List<GradientLevelPair> Colors
 		{
 			get { return _data.Colors; }
@@ -226,7 +225,6 @@ namespace VixenModules.Effect.Alternating
 		[ProviderDescription(@"Depth")]
 		[TypeConverter(typeof(TargetElementDepthConverter))]
 		[PropertyEditor("SelectionEditor")]
-		[MergableProperty(false)]
 		public int DepthOfEffect
 		{
 			get { return _data.DepthOfEffect; }

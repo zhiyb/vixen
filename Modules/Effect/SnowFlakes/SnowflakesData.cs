@@ -32,6 +32,9 @@ namespace VixenModules.Effect.Snowflakes
 			SnowflakeEffect = SnowflakeEffect.None;
 			ColorType = SnowflakeColorType.Palette;
 			Orientation=StringOrientation.Vertical;
+			SnowBuildUp = false;
+			InitialBuildUp = 0;
+			BuildUpSpeedCurve = new Curve(new PointPairList(new[] { 0.0, 100.0 }, new[] { 15.0, 15.0 }));
 		}
 
 		[DataMember]
@@ -42,6 +45,9 @@ namespace VixenModules.Effect.Snowflakes
 
 		[DataMember]
 		public SnowflakeType SnowflakeType { get; set; }
+
+		[DataMember]
+		public bool SnowBuildUp { get; set; }
 
 		[DataMember(EmitDefaultValue = false)]
 		public int Speed { get; set; }
@@ -80,6 +86,12 @@ namespace VixenModules.Effect.Snowflakes
 		public int MinDirection { get; set; }
 
 		[DataMember]
+		public int InitialBuildUp { get; set; }
+
+		[DataMember]
+		public Curve BuildUpSpeedCurve { get; set; }
+
+		[DataMember]
 		public SnowflakeEffect SnowflakeEffect { get; set; }
 
 		[DataMember(EmitDefaultValue = false)]
@@ -100,11 +112,17 @@ namespace VixenModules.Effect.Snowflakes
 
 			//if one of them is null the others probably are, and if this one is not then they all should be good.
 			//Try to save some cycles on every load
-			if (SpeedVariationCurve == null)
+			if (BuildUpSpeedCurve == null)
 			{
-				double variation = RandomSpeed ? (MaxSpeed - MinSpeed) : 0.0;
-				double value = PixelEffectBase.ScaleValueToCurve(variation, 60, 1);
-				SpeedVariationCurve = new Curve(new PointPairList(new[] { 0.0, 100.0 }, new[] { value, value }));
+				double value;
+				BuildUpSpeedCurve = new Curve(new PointPairList(new[] { 0.0, 100.0 }, new[] { 15.0, 15.0 }));
+
+				if (SpeedVariationCurve == null)
+				{
+					double variation = RandomSpeed ? (MaxSpeed - MinSpeed) : 0.0;
+					value = PixelEffectBase.ScaleValueToCurve(variation, 60, 1);
+					SpeedVariationCurve = new Curve(new PointPairList(new[] {0.0, 100.0}, new[] {value, value}));
+				}
 
 				if (FlakeCountCurve == null)
 				{
@@ -146,7 +164,10 @@ namespace VixenModules.Effect.Snowflakes
 				MinDirection = MinDirection,
 				MaxDirection = MaxDirection,
 				SnowflakeEffect = SnowflakeEffect,
-				PixelCount = PixelCount
+				PixelCount = PixelCount,
+				SnowBuildUp = SnowBuildUp,
+				InitialBuildUp = InitialBuildUp,
+				BuildUpSpeedCurve = new Curve(BuildUpSpeedCurve)
 			};
 			return result;
 		}

@@ -492,4 +492,67 @@
   <data name="BorderSize" xml:space="preserve">
     <value>Adjusts the overall size of the border.</value>
   </data>
+  <data name="BackGroundColor" xml:space="preserve">
+    <value>Changes Background color.</value>
+  </data>
+  <data name="BallCount" xml:space="preserve">
+    <value>Controls the number of Balls displayed.</value>
+  </data>
+  <data name="BallEdgeWidth" xml:space="preserve">
+    <value>Width of the individual empty balls.</value>
+  </data>
+  <data name="BallFill" xml:space="preserve">
+    <value>Selects the type of fill for the balls.</value>
+  </data>
+  <data name="BallType" xml:space="preserve">
+    <value>Selects between Bounce and Wrap.</value>
+  </data>
+  <data name="ChangeCollideColor" xml:space="preserve">
+    <value>Change ball color when balls collide.</value>
+  </data>
+  <data name="Collide" xml:space="preserve">
+    <value>Change the ball direction when balls collide.</value>
+  </data>
+  <data name="RandomRadius" xml:space="preserve">
+    <value>Creates random size balls up to the Radius value..</value>
+  </data>
+  <data name="BallSize" xml:space="preserve">
+    <value>Size of the Ball.</value>
+  </data>
+  <data name="CircleCount" xml:space="preserve">
+    <value>Adjust the number of Circles or radial patterns in the effect.</value>
+  </data>
+  <data name="CircleEdgeWidth" xml:space="preserve">
+    <value>Width of the individual circles, may need to increase when using Loaction.</value>
+  </data>
+  <data name="HorizontalOffset" xml:space="preserve">
+    <value>Controls the center positioning of the effect in the horizontal plane.</value>
+  </data>
+  <data name="RadialSpeed" xml:space="preserve">
+    <value>Speed of the radial pattern.</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size of the radial effect.</value>
+  </data>
+  <data name="VerticalOffset" xml:space="preserve">
+    <value>Controls the center positioning of the effect in the vertical plane.</value>
+  </data>
+  <data name="CircleFill" xml:space="preserve">
+    <value>Changes the way the circle is filled.</value>
+  </data>
+  <data name="RadialDirection" xml:space="preserve">
+    <value>Changes the direction of the effect to In or out.</value>
+  </data>
+  <data name="SnowBuildUp" xml:space="preserve">
+    <value>Allows the Snowflakes to build-up at the bottom of the Element.</value>
+  </data>
+  <data name="InitialBuildUp" xml:space="preserve">
+    <value>Sets the height level of the Initial Snow build-up at the bottom of the element.</value>
+  </data>
+  <data name="BuildUpSpeed" xml:space="preserve">
+    <value>Adjusts how fast the build-up of Snow is.</value>
+  </data>
+  <data name="EnableGroundLevel" xml:space="preserve">
+    <value>Adds a Ground level for the Meteors to hit.</value>
+  </data>
 </root>

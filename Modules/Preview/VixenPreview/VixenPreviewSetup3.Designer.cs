@@ -30,34 +30,31 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VixenPreviewSetup3));
-			this.panelToolbar = new System.Windows.Forms.Panel();
 			this.panel11 = new System.Windows.Forms.Panel();
 			this.label14 = new System.Windows.Forms.Label();
 			this.toolStripUndo = new System.Windows.Forms.ToolStrip();
 			this.undoButton = new Common.Controls.UndoButton();
 			this.redoButton = new Common.Controls.UndoButton();
-			this.panel8 = new System.Windows.Forms.Panel();
-			this.buttonMatchProperties = new System.Windows.Forms.Button();
-			this.buttonDistributeVertical = new System.Windows.Forms.Button();
-			this.buttonDistributeHorizontal = new System.Windows.Forms.Button();
-			this.buttonAlignBottom = new System.Windows.Forms.Button();
-			this.buttonAlignRight = new System.Windows.Forms.Button();
-			this.buttonAlignVertMid = new System.Windows.Forms.Button();
-			this.buttonAlignLeft = new System.Windows.Forms.Button();
-			this.buttonAlignHorizMid = new System.Windows.Forms.Button();
-			this.buttonAlignTop = new System.Windows.Forms.Button();
+			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.label7 = new System.Windows.Forms.Label();
+			this.buttonDistributeVertical = new System.Windows.Forms.Button();
+			this.buttonMatchProperties = new System.Windows.Forms.Button();
+			this.buttonAlignBottom = new System.Windows.Forms.Button();
+			this.buttonAlignLeft = new System.Windows.Forms.Button();
+			this.buttonAlignVertMid = new System.Windows.Forms.Button();
+			this.buttonAlignRight = new System.Windows.Forms.Button();
+			this.buttonAlignHorizMid = new System.Windows.Forms.Button();
+			this.buttonDistributeHorizontal = new System.Windows.Forms.Button();
+			this.buttonAlignTop = new System.Windows.Forms.Button();
 			this.panel6 = new System.Windows.Forms.Panel();
 			this.label8 = new System.Windows.Forms.Label();
 			this.buttonSelect = new System.Windows.Forms.Button();
-			this.panel5 = new System.Windows.Forms.Panel();
 			this.buttonAddTemplate = new System.Windows.Forms.Button();
 			this.buttonTemplateHelp = new System.Windows.Forms.Button();
 			this.buttonDeleteTemplate = new System.Windows.Forms.Button();
 			this.buttonAddToPreview = new System.Windows.Forms.Button();
 			this.comboBoxTemplates = new System.Windows.Forms.ComboBox();
 			this.label4 = new System.Windows.Forms.Label();
-			this.panel4 = new System.Windows.Forms.Panel();
 			this.buttonMultiString = new System.Windows.Forms.Button();
 			this.buttonIcicle = new System.Windows.Forms.Button();
 			this.buttonStarBurst = new System.Windows.Forms.Button();
@@ -68,14 +65,14 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.buttonSemiCircle = new System.Windows.Forms.Button();
 			this.buttonMegaTree = new System.Windows.Forms.Button();
-			this.panel3 = new System.Windows.Forms.Panel();
-			this.buttonPolyLine = new System.Windows.Forms.Button();
-			this.buttonTriangle = new System.Windows.Forms.Button();
+			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
 			this.label2 = new System.Windows.Forms.Label();
+			this.buttonPolyLine = new System.Windows.Forms.Button();
 			this.buttonDrawPixel = new System.Windows.Forms.Button();
-			this.buttonEllipse = new System.Windows.Forms.Button();
+			this.buttonTriangle = new System.Windows.Forms.Button();
 			this.buttonLine = new System.Windows.Forms.Button();
 			this.buttonRectangle = new System.Windows.Forms.Button();
+			this.buttonEllipse = new System.Windows.Forms.Button();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.trackBarBackgroundAlpha = new System.Windows.Forms.TrackBar();
@@ -83,9 +80,9 @@
 			this.dialogSelectBackground = new System.Windows.Forms.OpenFileDialog();
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.propInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,6 +96,9 @@
 			this.backgroundPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveLocationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.locationOffsetSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.performanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.useDirect2DPreviewRenderingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -112,62 +112,57 @@
 			this.label9 = new System.Windows.Forms.Label();
 			this.trackerZoom = new Common.Controls.ControlsEx.ValueControls.HMiniTracker();
 			this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.panelToolbar.SuspendLayout();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+			this.tableLayoutMain = new System.Windows.Forms.TableLayoutPanel();
+			this.tlpToolBar = new System.Windows.Forms.TableLayoutPanel();
+			this.pnlBasicDrawing = new System.Windows.Forms.Panel();
+			this.pnlSmartObjects = new System.Windows.Forms.Panel();
+			this.panel4 = new System.Windows.Forms.Panel();
+			this.panel5 = new System.Windows.Forms.Panel();
 			this.panel11.SuspendLayout();
 			this.toolStripUndo.SuspendLayout();
-			this.panel8.SuspendLayout();
+			this.tableLayoutPanel2.SuspendLayout();
 			this.panel6.SuspendLayout();
-			this.panel5.SuspendLayout();
-			this.panel4.SuspendLayout();
-			this.panel3.SuspendLayout();
+			this.tableLayoutPanel3.SuspendLayout();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarBackgroundAlpha)).BeginInit();
 			this.menuStrip.SuspendLayout();
 			this.panel9.SuspendLayout();
 			this.panel10.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			this.tableLayoutPanel4.SuspendLayout();
+			this.tableLayoutMain.SuspendLayout();
+			this.tlpToolBar.SuspendLayout();
+			this.pnlBasicDrawing.SuspendLayout();
+			this.pnlSmartObjects.SuspendLayout();
+			this.panel4.SuspendLayout();
+			this.panel5.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// panelToolbar
-			// 
-			this.panelToolbar.BackColor = System.Drawing.Color.White;
-			this.panelToolbar.Controls.Add(this.panel11);
-			this.panelToolbar.Controls.Add(this.panel8);
-			this.panelToolbar.Controls.Add(this.panel6);
-			this.panelToolbar.Controls.Add(this.panel5);
-			this.panelToolbar.Controls.Add(this.panel4);
-			this.panelToolbar.Controls.Add(this.panel3);
-			this.panelToolbar.Controls.Add(this.panel2);
-			this.panelToolbar.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panelToolbar.Location = new System.Drawing.Point(0, 24);
-			this.panelToolbar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.panelToolbar.Name = "panelToolbar";
-			this.panelToolbar.Size = new System.Drawing.Size(1276, 90);
-			this.panelToolbar.TabIndex = 7;
 			// 
 			// panel11
 			// 
-			this.panel11.AutoSize = true;
 			this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel11.Controls.Add(this.label14);
 			this.panel11.Controls.Add(this.toolStripUndo);
-			this.panel11.Location = new System.Drawing.Point(896, 4);
+			this.panel11.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel11.Location = new System.Drawing.Point(950, 24);
 			this.panel11.Margin = new System.Windows.Forms.Padding(2);
 			this.panel11.Name = "panel11";
-			this.panel11.Size = new System.Drawing.Size(142, 84);
+			this.panel11.Size = new System.Drawing.Size(125, 82);
 			this.panel11.TabIndex = 15;
 			// 
 			// label14
 			// 
+			this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			this.label14.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.label14.Location = new System.Drawing.Point(0, 60);
+			this.label14.Location = new System.Drawing.Point(951, 0);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(140, 22);
+			this.label14.Size = new System.Drawing.Size(123, 22);
 			this.label14.TabIndex = 3;
 			this.label14.Text = "Undo/Redo";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.label14.Click += new System.EventHandler(this.label14_Click);
 			// 
 			// toolStripUndo
 			// 
@@ -178,7 +173,7 @@
 			this.toolStripUndo.Location = new System.Drawing.Point(0, 0);
 			this.toolStripUndo.Name = "toolStripUndo";
 			this.toolStripUndo.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-			this.toolStripUndo.Size = new System.Drawing.Size(140, 25);
+			this.toolStripUndo.Size = new System.Drawing.Size(123, 25);
 			this.toolStripUndo.TabIndex = 2;
 			this.toolStripUndo.Text = "toolStrip1";
 			// 
@@ -204,41 +199,42 @@
 			this.redoButton.Text = "Redo";
 			this.redoButton.ButtonClick += new System.EventHandler(this.redoButton_ButtonClick);
 			// 
-			// panel8
+			// tableLayoutPanel2
 			// 
-			this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel8.Controls.Add(this.buttonMatchProperties);
-			this.panel8.Controls.Add(this.buttonDistributeVertical);
-			this.panel8.Controls.Add(this.buttonDistributeHorizontal);
-			this.panel8.Controls.Add(this.buttonAlignBottom);
-			this.panel8.Controls.Add(this.buttonAlignRight);
-			this.panel8.Controls.Add(this.buttonAlignVertMid);
-			this.panel8.Controls.Add(this.buttonAlignLeft);
-			this.panel8.Controls.Add(this.buttonAlignHorizMid);
-			this.panel8.Controls.Add(this.buttonAlignTop);
-			this.panel8.Controls.Add(this.label7);
-			this.panel8.Location = new System.Drawing.Point(479, 4);
-			this.panel8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.panel8.Name = "panel8";
-			this.panel8.Size = new System.Drawing.Size(161, 84);
-			this.panel8.TabIndex = 14;
+			this.tableLayoutPanel2.ColumnCount = 5;
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel2.Controls.Add(this.buttonDistributeVertical, 3, 1);
+			this.tableLayoutPanel2.Controls.Add(this.buttonMatchProperties, 4, 0);
+			this.tableLayoutPanel2.Controls.Add(this.buttonAlignBottom, 2, 1);
+			this.tableLayoutPanel2.Controls.Add(this.buttonAlignLeft, 0, 0);
+			this.tableLayoutPanel2.Controls.Add(this.buttonAlignVertMid, 1, 1);
+			this.tableLayoutPanel2.Controls.Add(this.buttonAlignRight, 1, 0);
+			this.tableLayoutPanel2.Controls.Add(this.buttonAlignHorizMid, 0, 1);
+			this.tableLayoutPanel2.Controls.Add(this.buttonDistributeHorizontal, 3, 0);
+			this.tableLayoutPanel2.Controls.Add(this.buttonAlignTop, 2, 0);
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+			this.tableLayoutPanel2.RowCount = 2;
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(159, 74);
+			this.tableLayoutPanel2.TabIndex = 22;
 			// 
-			// buttonMatchProperties
+			// label7
 			// 
-			this.buttonMatchProperties.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonMatchProperties.BackgroundImage")));
-			this.buttonMatchProperties.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonMatchProperties.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.buttonMatchProperties.FlatAppearance.BorderSize = 0;
-			this.buttonMatchProperties.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonMatchProperties.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonMatchProperties.Location = new System.Drawing.Point(124, 6);
-			this.buttonMatchProperties.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.buttonMatchProperties.Name = "buttonMatchProperties";
-			this.buttonMatchProperties.Size = new System.Drawing.Size(26, 26);
-			this.buttonMatchProperties.TabIndex = 20;
-			this.toolTip.SetToolTip(this.buttonMatchProperties, "Match Properties");
-			this.buttonMatchProperties.UseVisualStyleBackColor = true;
-			this.buttonMatchProperties.Click += new System.EventHandler(this.toolbarAlignButton_Click);
+			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+			this.label7.Location = new System.Drawing.Point(527, 0);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(167, 22);
+			this.label7.TabIndex = 0;
+			this.label7.Text = "Align";
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// buttonDistributeVertical
 			// 
@@ -248,7 +244,7 @@
 			this.buttonDistributeVertical.FlatAppearance.BorderSize = 0;
 			this.buttonDistributeVertical.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonDistributeVertical.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonDistributeVertical.Location = new System.Drawing.Point(96, 32);
+			this.buttonDistributeVertical.Location = new System.Drawing.Point(99, 38);
 			this.buttonDistributeVertical.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonDistributeVertical.Name = "buttonDistributeVertical";
 			this.buttonDistributeVertical.Size = new System.Drawing.Size(26, 26);
@@ -257,22 +253,22 @@
 			this.buttonDistributeVertical.UseVisualStyleBackColor = true;
 			this.buttonDistributeVertical.Click += new System.EventHandler(this.toolbarAlignButton_Click);
 			// 
-			// buttonDistributeHorizontal
+			// buttonMatchProperties
 			// 
-			this.buttonDistributeHorizontal.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonDistributeHorizontal.BackgroundImage")));
-			this.buttonDistributeHorizontal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonDistributeHorizontal.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.buttonDistributeHorizontal.FlatAppearance.BorderSize = 0;
-			this.buttonDistributeHorizontal.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonDistributeHorizontal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonDistributeHorizontal.Location = new System.Drawing.Point(96, 6);
-			this.buttonDistributeHorizontal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.buttonDistributeHorizontal.Name = "buttonDistributeHorizontal";
-			this.buttonDistributeHorizontal.Size = new System.Drawing.Size(26, 26);
-			this.buttonDistributeHorizontal.TabIndex = 19;
-			this.toolTip.SetToolTip(this.buttonDistributeHorizontal, "Distribute Horizontally");
-			this.buttonDistributeHorizontal.UseVisualStyleBackColor = true;
-			this.buttonDistributeHorizontal.Click += new System.EventHandler(this.toolbarAlignButton_Click);
+			this.buttonMatchProperties.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonMatchProperties.BackgroundImage")));
+			this.buttonMatchProperties.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonMatchProperties.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.buttonMatchProperties.FlatAppearance.BorderSize = 0;
+			this.buttonMatchProperties.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonMatchProperties.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonMatchProperties.Location = new System.Drawing.Point(131, 4);
+			this.buttonMatchProperties.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonMatchProperties.Name = "buttonMatchProperties";
+			this.buttonMatchProperties.Size = new System.Drawing.Size(25, 26);
+			this.buttonMatchProperties.TabIndex = 20;
+			this.toolTip.SetToolTip(this.buttonMatchProperties, "Match Properties");
+			this.buttonMatchProperties.UseVisualStyleBackColor = true;
+			this.buttonMatchProperties.Click += new System.EventHandler(this.toolbarAlignButton_Click);
 			// 
 			// buttonAlignBottom
 			// 
@@ -282,7 +278,7 @@
 			this.buttonAlignBottom.FlatAppearance.BorderSize = 0;
 			this.buttonAlignBottom.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonAlignBottom.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonAlignBottom.Location = new System.Drawing.Point(65, 32);
+			this.buttonAlignBottom.Location = new System.Drawing.Point(67, 38);
 			this.buttonAlignBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonAlignBottom.Name = "buttonAlignBottom";
 			this.buttonAlignBottom.Size = new System.Drawing.Size(26, 26);
@@ -290,40 +286,6 @@
 			this.toolTip.SetToolTip(this.buttonAlignBottom, "Align Bottom");
 			this.buttonAlignBottom.UseVisualStyleBackColor = true;
 			this.buttonAlignBottom.Click += new System.EventHandler(this.toolbarAlignButton_Click);
-			// 
-			// buttonAlignRight
-			// 
-			this.buttonAlignRight.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAlignRight.BackgroundImage")));
-			this.buttonAlignRight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonAlignRight.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.buttonAlignRight.FlatAppearance.BorderSize = 0;
-			this.buttonAlignRight.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonAlignRight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonAlignRight.Location = new System.Drawing.Point(36, 6);
-			this.buttonAlignRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.buttonAlignRight.Name = "buttonAlignRight";
-			this.buttonAlignRight.Size = new System.Drawing.Size(26, 26);
-			this.buttonAlignRight.TabIndex = 17;
-			this.toolTip.SetToolTip(this.buttonAlignRight, "Align Right");
-			this.buttonAlignRight.UseVisualStyleBackColor = true;
-			this.buttonAlignRight.Click += new System.EventHandler(this.toolbarAlignButton_Click);
-			// 
-			// buttonAlignVertMid
-			// 
-			this.buttonAlignVertMid.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAlignVertMid.BackgroundImage")));
-			this.buttonAlignVertMid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonAlignVertMid.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.buttonAlignVertMid.FlatAppearance.BorderSize = 0;
-			this.buttonAlignVertMid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonAlignVertMid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonAlignVertMid.Location = new System.Drawing.Point(36, 32);
-			this.buttonAlignVertMid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.buttonAlignVertMid.Name = "buttonAlignVertMid";
-			this.buttonAlignVertMid.Size = new System.Drawing.Size(26, 26);
-			this.buttonAlignVertMid.TabIndex = 22;
-			this.toolTip.SetToolTip(this.buttonAlignVertMid, "Align Vertically");
-			this.buttonAlignVertMid.UseVisualStyleBackColor = true;
-			this.buttonAlignVertMid.Click += new System.EventHandler(this.toolbarAlignButton_Click);
 			// 
 			// buttonAlignLeft
 			// 
@@ -333,7 +295,7 @@
 			this.buttonAlignLeft.FlatAppearance.BorderSize = 0;
 			this.buttonAlignLeft.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonAlignLeft.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonAlignLeft.Location = new System.Drawing.Point(7, 6);
+			this.buttonAlignLeft.Location = new System.Drawing.Point(3, 4);
 			this.buttonAlignLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonAlignLeft.Name = "buttonAlignLeft";
 			this.buttonAlignLeft.Size = new System.Drawing.Size(26, 26);
@@ -341,6 +303,40 @@
 			this.toolTip.SetToolTip(this.buttonAlignLeft, "Align Left");
 			this.buttonAlignLeft.UseVisualStyleBackColor = true;
 			this.buttonAlignLeft.Click += new System.EventHandler(this.toolbarAlignButton_Click);
+			// 
+			// buttonAlignVertMid
+			// 
+			this.buttonAlignVertMid.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAlignVertMid.BackgroundImage")));
+			this.buttonAlignVertMid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonAlignVertMid.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.buttonAlignVertMid.FlatAppearance.BorderSize = 0;
+			this.buttonAlignVertMid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonAlignVertMid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonAlignVertMid.Location = new System.Drawing.Point(35, 38);
+			this.buttonAlignVertMid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonAlignVertMid.Name = "buttonAlignVertMid";
+			this.buttonAlignVertMid.Size = new System.Drawing.Size(26, 26);
+			this.buttonAlignVertMid.TabIndex = 22;
+			this.toolTip.SetToolTip(this.buttonAlignVertMid, "Align Vertically");
+			this.buttonAlignVertMid.UseVisualStyleBackColor = true;
+			this.buttonAlignVertMid.Click += new System.EventHandler(this.toolbarAlignButton_Click);
+			// 
+			// buttonAlignRight
+			// 
+			this.buttonAlignRight.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonAlignRight.BackgroundImage")));
+			this.buttonAlignRight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonAlignRight.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.buttonAlignRight.FlatAppearance.BorderSize = 0;
+			this.buttonAlignRight.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonAlignRight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonAlignRight.Location = new System.Drawing.Point(35, 4);
+			this.buttonAlignRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonAlignRight.Name = "buttonAlignRight";
+			this.buttonAlignRight.Size = new System.Drawing.Size(26, 26);
+			this.buttonAlignRight.TabIndex = 17;
+			this.toolTip.SetToolTip(this.buttonAlignRight, "Align Right");
+			this.buttonAlignRight.UseVisualStyleBackColor = true;
+			this.buttonAlignRight.Click += new System.EventHandler(this.toolbarAlignButton_Click);
 			// 
 			// buttonAlignHorizMid
 			// 
@@ -350,7 +346,7 @@
 			this.buttonAlignHorizMid.FlatAppearance.BorderSize = 0;
 			this.buttonAlignHorizMid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonAlignHorizMid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonAlignHorizMid.Location = new System.Drawing.Point(7, 32);
+			this.buttonAlignHorizMid.Location = new System.Drawing.Point(3, 38);
 			this.buttonAlignHorizMid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonAlignHorizMid.Name = "buttonAlignHorizMid";
 			this.buttonAlignHorizMid.Size = new System.Drawing.Size(26, 26);
@@ -358,6 +354,23 @@
 			this.toolTip.SetToolTip(this.buttonAlignHorizMid, "Align Horizontally");
 			this.buttonAlignHorizMid.UseVisualStyleBackColor = true;
 			this.buttonAlignHorizMid.Click += new System.EventHandler(this.toolbarAlignButton_Click);
+			// 
+			// buttonDistributeHorizontal
+			// 
+			this.buttonDistributeHorizontal.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonDistributeHorizontal.BackgroundImage")));
+			this.buttonDistributeHorizontal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonDistributeHorizontal.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.buttonDistributeHorizontal.FlatAppearance.BorderSize = 0;
+			this.buttonDistributeHorizontal.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonDistributeHorizontal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonDistributeHorizontal.Location = new System.Drawing.Point(99, 4);
+			this.buttonDistributeHorizontal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonDistributeHorizontal.Name = "buttonDistributeHorizontal";
+			this.buttonDistributeHorizontal.Size = new System.Drawing.Size(26, 26);
+			this.buttonDistributeHorizontal.TabIndex = 19;
+			this.toolTip.SetToolTip(this.buttonDistributeHorizontal, "Distribute Horizontally");
+			this.buttonDistributeHorizontal.UseVisualStyleBackColor = true;
+			this.buttonDistributeHorizontal.Click += new System.EventHandler(this.toolbarAlignButton_Click);
 			// 
 			// buttonAlignTop
 			// 
@@ -367,7 +380,7 @@
 			this.buttonAlignTop.FlatAppearance.BorderSize = 0;
 			this.buttonAlignTop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonAlignTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonAlignTop.Location = new System.Drawing.Point(65, 6);
+			this.buttonAlignTop.Location = new System.Drawing.Point(67, 4);
 			this.buttonAlignTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonAlignTop.Name = "buttonAlignTop";
 			this.buttonAlignTop.Size = new System.Drawing.Size(26, 26);
@@ -376,35 +389,25 @@
 			this.buttonAlignTop.UseVisualStyleBackColor = true;
 			this.buttonAlignTop.Click += new System.EventHandler(this.toolbarAlignButton_Click);
 			// 
-			// label7
-			// 
-			this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.label7.Location = new System.Drawing.Point(0, 60);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(159, 22);
-			this.label7.TabIndex = 0;
-			this.label7.Text = "Align";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
 			// panel6
 			// 
 			this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel6.Controls.Add(this.label8);
 			this.panel6.Controls.Add(this.buttonSelect);
-			this.panel6.Location = new System.Drawing.Point(166, 4);
+			this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel6.Location = new System.Drawing.Point(172, 26);
 			this.panel6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.panel6.Name = "panel6";
-			this.panel6.Size = new System.Drawing.Size(63, 84);
+			this.panel6.Size = new System.Drawing.Size(63, 78);
 			this.panel6.TabIndex = 12;
 			// 
 			// label8
 			// 
+			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			this.label8.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.label8.Location = new System.Drawing.Point(0, 60);
+			this.label8.Location = new System.Drawing.Point(172, 0);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(61, 22);
+			this.label8.Size = new System.Drawing.Size(63, 22);
 			this.label8.TabIndex = 0;
 			this.label8.Text = "Select";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -429,21 +432,6 @@
 			this.buttonSelect.UseVisualStyleBackColor = false;
 			this.buttonSelect.Click += new System.EventHandler(this.toolbarButton_Click);
 			// 
-			// panel5
-			// 
-			this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel5.Controls.Add(this.buttonAddTemplate);
-			this.panel5.Controls.Add(this.buttonTemplateHelp);
-			this.panel5.Controls.Add(this.buttonDeleteTemplate);
-			this.panel5.Controls.Add(this.buttonAddToPreview);
-			this.panel5.Controls.Add(this.comboBoxTemplates);
-			this.panel5.Controls.Add(this.label4);
-			this.panel5.Location = new System.Drawing.Point(638, 4);
-			this.panel5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(261, 84);
-			this.panel5.TabIndex = 10;
-			// 
 			// buttonAddTemplate
 			// 
 			this.buttonAddTemplate.BackColor = System.Drawing.Color.Transparent;
@@ -452,7 +440,7 @@
 			this.buttonAddTemplate.FlatAppearance.BorderSize = 0;
 			this.buttonAddTemplate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonAddTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonAddTemplate.Location = new System.Drawing.Point(166, 6);
+			this.buttonAddTemplate.Location = new System.Drawing.Point(149, 4);
 			this.buttonAddTemplate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonAddTemplate.Name = "buttonAddTemplate";
 			this.buttonAddTemplate.Size = new System.Drawing.Size(26, 26);
@@ -469,7 +457,7 @@
 			this.buttonTemplateHelp.FlatAppearance.BorderSize = 0;
 			this.buttonTemplateHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonTemplateHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonTemplateHelp.Location = new System.Drawing.Point(226, 6);
+			this.buttonTemplateHelp.Location = new System.Drawing.Point(213, 4);
 			this.buttonTemplateHelp.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonTemplateHelp.Name = "buttonTemplateHelp";
 			this.buttonTemplateHelp.Size = new System.Drawing.Size(26, 26);
@@ -486,7 +474,7 @@
 			this.buttonDeleteTemplate.FlatAppearance.BorderSize = 0;
 			this.buttonDeleteTemplate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonDeleteTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonDeleteTemplate.Location = new System.Drawing.Point(194, 6);
+			this.buttonDeleteTemplate.Location = new System.Drawing.Point(181, 4);
 			this.buttonDeleteTemplate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonDeleteTemplate.Name = "buttonDeleteTemplate";
 			this.buttonDeleteTemplate.Size = new System.Drawing.Size(26, 26);
@@ -497,13 +485,13 @@
 			// 
 			// buttonAddToPreview
 			// 
+			this.buttonAddToPreview.AutoSize = true;
 			this.buttonAddToPreview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonAddToPreview.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddToPreview.Image")));
 			this.buttonAddToPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonAddToPreview.Location = new System.Drawing.Point(37, 32);
+			this.buttonAddToPreview.Location = new System.Drawing.Point(3, 38);
 			this.buttonAddToPreview.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonAddToPreview.Name = "buttonAddToPreview";
-			this.buttonAddToPreview.Size = new System.Drawing.Size(124, 26);
+			this.buttonAddToPreview.Size = new System.Drawing.Size(99, 27);
 			this.buttonAddToPreview.TabIndex = 30;
 			this.buttonAddToPreview.Text = "Add to Preview";
 			this.buttonAddToPreview.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -518,42 +506,25 @@
 			this.comboBoxTemplates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxTemplates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.comboBoxTemplates.FormattingEnabled = true;
-			this.comboBoxTemplates.Location = new System.Drawing.Point(7, 6);
+			this.comboBoxTemplates.Location = new System.Drawing.Point(3, 4);
 			this.comboBoxTemplates.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.comboBoxTemplates.Name = "comboBoxTemplates";
-			this.comboBoxTemplates.Size = new System.Drawing.Size(155, 24);
+			this.comboBoxTemplates.Size = new System.Drawing.Size(140, 24);
 			this.comboBoxTemplates.TabIndex = 26;
 			this.comboBoxTemplates.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBox_DrawItem);
 			// 
 			// label4
 			// 
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			this.label4.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.label4.Location = new System.Drawing.Point(0, 60);
+			this.label4.Location = new System.Drawing.Point(700, 0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(259, 22);
+			this.label4.Size = new System.Drawing.Size(245, 22);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "Templates";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// panel4
-			// 
-			this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel4.Controls.Add(this.buttonMultiString);
-			this.panel4.Controls.Add(this.buttonIcicle);
-			this.panel4.Controls.Add(this.buttonStarBurst);
-			this.panel4.Controls.Add(this.buttonPixelGrid);
-			this.panel4.Controls.Add(this.buttonStar);
-			this.panel4.Controls.Add(this.buttonNet);
-			this.panel4.Controls.Add(this.buttonCane);
-			this.panel4.Controls.Add(this.label3);
-			this.panel4.Controls.Add(this.buttonSemiCircle);
-			this.panel4.Controls.Add(this.buttonMegaTree);
-			this.panel4.Location = new System.Drawing.Point(324, 4);
-			this.panel4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(158, 84);
-			this.panel4.TabIndex = 9;
+			this.label4.Click += new System.EventHandler(this.label4_Click);
 			// 
 			// buttonMultiString
 			// 
@@ -566,10 +537,10 @@
 			this.buttonMultiString.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonMultiString.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonMultiString.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonMultiString.Location = new System.Drawing.Point(124, 6);
+			this.buttonMultiString.Location = new System.Drawing.Point(131, 4);
 			this.buttonMultiString.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonMultiString.Name = "buttonMultiString";
-			this.buttonMultiString.Size = new System.Drawing.Size(26, 26);
+			this.buttonMultiString.Size = new System.Drawing.Size(12, 26);
 			this.buttonMultiString.TabIndex = 10;
 			this.buttonMultiString.Tag = "";
 			this.toolTip.SetToolTip(this.buttonMultiString, "Multi-String");
@@ -587,7 +558,7 @@
 			this.buttonIcicle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonIcicle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonIcicle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonIcicle.Location = new System.Drawing.Point(96, 32);
+			this.buttonIcicle.Location = new System.Drawing.Point(99, 38);
 			this.buttonIcicle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonIcicle.Name = "buttonIcicle";
 			this.buttonIcicle.Size = new System.Drawing.Size(26, 26);
@@ -608,7 +579,7 @@
 			this.buttonStarBurst.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonStarBurst.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonStarBurst.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonStarBurst.Location = new System.Drawing.Point(96, 6);
+			this.buttonStarBurst.Location = new System.Drawing.Point(99, 4);
 			this.buttonStarBurst.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonStarBurst.Name = "buttonStarBurst";
 			this.buttonStarBurst.Size = new System.Drawing.Size(26, 26);
@@ -629,7 +600,7 @@
 			this.buttonPixelGrid.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonPixelGrid.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonPixelGrid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonPixelGrid.Location = new System.Drawing.Point(65, 32);
+			this.buttonPixelGrid.Location = new System.Drawing.Point(67, 38);
 			this.buttonPixelGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonPixelGrid.Name = "buttonPixelGrid";
 			this.buttonPixelGrid.Size = new System.Drawing.Size(26, 26);
@@ -650,7 +621,7 @@
 			this.buttonStar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonStar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonStar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonStar.Location = new System.Drawing.Point(36, 32);
+			this.buttonStar.Location = new System.Drawing.Point(35, 38);
 			this.buttonStar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonStar.Name = "buttonStar";
 			this.buttonStar.Size = new System.Drawing.Size(26, 26);
@@ -671,7 +642,7 @@
 			this.buttonNet.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonNet.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonNet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonNet.Location = new System.Drawing.Point(36, 6);
+			this.buttonNet.Location = new System.Drawing.Point(35, 4);
 			this.buttonNet.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonNet.Name = "buttonNet";
 			this.buttonNet.Size = new System.Drawing.Size(26, 26);
@@ -692,7 +663,7 @@
 			this.buttonCane.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonCane.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonCane.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonCane.Location = new System.Drawing.Point(7, 32);
+			this.buttonCane.Location = new System.Drawing.Point(3, 38);
 			this.buttonCane.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonCane.Name = "buttonCane";
 			this.buttonCane.Size = new System.Drawing.Size(26, 26);
@@ -704,14 +675,16 @@
 			// 
 			// label3
 			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.label3.Location = new System.Drawing.Point(0, 60);
+			this.label3.Location = new System.Drawing.Point(356, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(156, 22);
+			this.label3.Size = new System.Drawing.Size(165, 22);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Smart Objects";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.label3.Click += new System.EventHandler(this.label3_Click);
 			// 
 			// buttonSemiCircle
 			// 
@@ -724,7 +697,7 @@
 			this.buttonSemiCircle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonSemiCircle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonSemiCircle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonSemiCircle.Location = new System.Drawing.Point(7, 6);
+			this.buttonSemiCircle.Location = new System.Drawing.Point(3, 4);
 			this.buttonSemiCircle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonSemiCircle.Name = "buttonSemiCircle";
 			this.buttonSemiCircle.Size = new System.Drawing.Size(26, 26);
@@ -745,7 +718,7 @@
 			this.buttonMegaTree.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonMegaTree.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonMegaTree.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonMegaTree.Location = new System.Drawing.Point(65, 6);
+			this.buttonMegaTree.Location = new System.Drawing.Point(67, 4);
 			this.buttonMegaTree.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonMegaTree.Name = "buttonMegaTree";
 			this.buttonMegaTree.Size = new System.Drawing.Size(26, 26);
@@ -755,21 +728,37 @@
 			this.buttonMegaTree.UseVisualStyleBackColor = false;
 			this.buttonMegaTree.Click += new System.EventHandler(this.toolbarButton_Click);
 			// 
-			// panel3
+			// tableLayoutPanel3
 			// 
-			this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel3.Controls.Add(this.buttonPolyLine);
-			this.panel3.Controls.Add(this.buttonTriangle);
-			this.panel3.Controls.Add(this.label2);
-			this.panel3.Controls.Add(this.buttonDrawPixel);
-			this.panel3.Controls.Add(this.buttonEllipse);
-			this.panel3.Controls.Add(this.buttonLine);
-			this.panel3.Controls.Add(this.buttonRectangle);
-			this.panel3.Location = new System.Drawing.Point(226, 4);
-			this.panel3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(98, 84);
-			this.panel3.TabIndex = 8;
+			this.tableLayoutPanel3.ColumnCount = 3;
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel3.Controls.Add(this.buttonPolyLine, 2, 1);
+			this.tableLayoutPanel3.Controls.Add(this.buttonDrawPixel, 0, 0);
+			this.tableLayoutPanel3.Controls.Add(this.buttonTriangle, 1, 1);
+			this.tableLayoutPanel3.Controls.Add(this.buttonLine, 1, 0);
+			this.tableLayoutPanel3.Controls.Add(this.buttonRectangle, 2, 0);
+			this.tableLayoutPanel3.Controls.Add(this.buttonEllipse, 0, 1);
+			this.tableLayoutPanel3.Location = new System.Drawing.Point(6, 4);
+			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+			this.tableLayoutPanel3.RowCount = 2;
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(96, 73);
+			this.tableLayoutPanel3.TabIndex = 22;
+			// 
+			// label2
+			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+			this.label2.Location = new System.Drawing.Point(241, 0);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(109, 22);
+			this.label2.TabIndex = 0;
+			this.label2.Text = "Basic Drawing";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// buttonPolyLine
 			// 
@@ -782,7 +771,7 @@
 			this.buttonPolyLine.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonPolyLine.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonPolyLine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonPolyLine.Location = new System.Drawing.Point(65, 32);
+			this.buttonPolyLine.Location = new System.Drawing.Point(67, 38);
 			this.buttonPolyLine.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonPolyLine.Name = "buttonPolyLine";
 			this.buttonPolyLine.Size = new System.Drawing.Size(26, 26);
@@ -791,38 +780,6 @@
 			this.toolTip.SetToolTip(this.buttonPolyLine, "Multi-Point String");
 			this.buttonPolyLine.UseVisualStyleBackColor = false;
 			this.buttonPolyLine.Click += new System.EventHandler(this.toolbarButton_Click);
-			// 
-			// buttonTriangle
-			// 
-			this.buttonTriangle.BackColor = System.Drawing.Color.Transparent;
-			this.buttonTriangle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonTriangle.BackgroundImage")));
-			this.buttonTriangle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonTriangle.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.buttonTriangle.FlatAppearance.BorderSize = 0;
-			this.buttonTriangle.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonTriangle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonTriangle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonTriangle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonTriangle.Location = new System.Drawing.Point(36, 32);
-			this.buttonTriangle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.buttonTriangle.Name = "buttonTriangle";
-			this.buttonTriangle.Size = new System.Drawing.Size(26, 26);
-			this.buttonTriangle.TabIndex = 4;
-			this.buttonTriangle.Tag = "";
-			this.toolTip.SetToolTip(this.buttonTriangle, "Triangle");
-			this.buttonTriangle.UseVisualStyleBackColor = false;
-			this.buttonTriangle.Click += new System.EventHandler(this.toolbarButton_Click);
-			// 
-			// label2
-			// 
-			this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.label2.Location = new System.Drawing.Point(0, 60);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(96, 22);
-			this.label2.TabIndex = 0;
-			this.label2.Text = "Basic Drawing";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// buttonDrawPixel
 			// 
@@ -835,7 +792,7 @@
 			this.buttonDrawPixel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonDrawPixel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonDrawPixel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonDrawPixel.Location = new System.Drawing.Point(7, 6);
+			this.buttonDrawPixel.Location = new System.Drawing.Point(3, 4);
 			this.buttonDrawPixel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonDrawPixel.Name = "buttonDrawPixel";
 			this.buttonDrawPixel.Size = new System.Drawing.Size(26, 26);
@@ -845,26 +802,26 @@
 			this.buttonDrawPixel.UseVisualStyleBackColor = false;
 			this.buttonDrawPixel.Click += new System.EventHandler(this.toolbarButton_Click);
 			// 
-			// buttonEllipse
+			// buttonTriangle
 			// 
-			this.buttonEllipse.BackColor = System.Drawing.Color.Transparent;
-			this.buttonEllipse.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonEllipse.BackgroundImage")));
-			this.buttonEllipse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonEllipse.FlatAppearance.BorderColor = System.Drawing.Color.White;
-			this.buttonEllipse.FlatAppearance.BorderSize = 0;
-			this.buttonEllipse.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonEllipse.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonEllipse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-			this.buttonEllipse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonEllipse.Location = new System.Drawing.Point(7, 32);
-			this.buttonEllipse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.buttonEllipse.Name = "buttonEllipse";
-			this.buttonEllipse.Size = new System.Drawing.Size(26, 26);
-			this.buttonEllipse.TabIndex = 3;
-			this.buttonEllipse.Tag = "";
-			this.toolTip.SetToolTip(this.buttonEllipse, "Oval");
-			this.buttonEllipse.UseVisualStyleBackColor = false;
-			this.buttonEllipse.Click += new System.EventHandler(this.toolbarButton_Click);
+			this.buttonTriangle.BackColor = System.Drawing.Color.Transparent;
+			this.buttonTriangle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonTriangle.BackgroundImage")));
+			this.buttonTriangle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonTriangle.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.buttonTriangle.FlatAppearance.BorderSize = 0;
+			this.buttonTriangle.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonTriangle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonTriangle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonTriangle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonTriangle.Location = new System.Drawing.Point(35, 38);
+			this.buttonTriangle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonTriangle.Name = "buttonTriangle";
+			this.buttonTriangle.Size = new System.Drawing.Size(26, 26);
+			this.buttonTriangle.TabIndex = 4;
+			this.buttonTriangle.Tag = "";
+			this.toolTip.SetToolTip(this.buttonTriangle, "Triangle");
+			this.buttonTriangle.UseVisualStyleBackColor = false;
+			this.buttonTriangle.Click += new System.EventHandler(this.toolbarButton_Click);
 			// 
 			// buttonLine
 			// 
@@ -877,7 +834,7 @@
 			this.buttonLine.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonLine.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonLine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonLine.Location = new System.Drawing.Point(36, 6);
+			this.buttonLine.Location = new System.Drawing.Point(35, 4);
 			this.buttonLine.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonLine.Name = "buttonLine";
 			this.buttonLine.Size = new System.Drawing.Size(26, 26);
@@ -898,7 +855,7 @@
 			this.buttonRectangle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonRectangle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
 			this.buttonRectangle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonRectangle.Location = new System.Drawing.Point(65, 6);
+			this.buttonRectangle.Location = new System.Drawing.Point(67, 4);
 			this.buttonRectangle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.buttonRectangle.Name = "buttonRectangle";
 			this.buttonRectangle.Size = new System.Drawing.Size(26, 26);
@@ -908,25 +865,47 @@
 			this.buttonRectangle.UseVisualStyleBackColor = false;
 			this.buttonRectangle.Click += new System.EventHandler(this.toolbarButton_Click);
 			// 
+			// buttonEllipse
+			// 
+			this.buttonEllipse.BackColor = System.Drawing.Color.Transparent;
+			this.buttonEllipse.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonEllipse.BackgroundImage")));
+			this.buttonEllipse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonEllipse.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.buttonEllipse.FlatAppearance.BorderSize = 0;
+			this.buttonEllipse.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonEllipse.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonEllipse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+			this.buttonEllipse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonEllipse.Location = new System.Drawing.Point(3, 38);
+			this.buttonEllipse.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.buttonEllipse.Name = "buttonEllipse";
+			this.buttonEllipse.Size = new System.Drawing.Size(26, 26);
+			this.buttonEllipse.TabIndex = 3;
+			this.buttonEllipse.Tag = "";
+			this.toolTip.SetToolTip(this.buttonEllipse, "Oval");
+			this.buttonEllipse.UseVisualStyleBackColor = false;
+			this.buttonEllipse.Click += new System.EventHandler(this.toolbarButton_Click);
+			// 
 			// panel2
 			// 
 			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel2.Controls.Add(this.label1);
 			this.panel2.Controls.Add(this.trackBarBackgroundAlpha);
 			this.panel2.Controls.Add(this.buttonSetBackground);
-			this.panel2.Location = new System.Drawing.Point(3, 4);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel2.Location = new System.Drawing.Point(3, 26);
 			this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(163, 84);
+			this.panel2.Size = new System.Drawing.Size(163, 78);
 			this.panel2.TabIndex = 7;
 			// 
 			// label1
 			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.label1.Location = new System.Drawing.Point(0, 60);
+			this.label1.Location = new System.Drawing.Point(3, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(161, 22);
+			this.label1.Size = new System.Drawing.Size(163, 22);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Background";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -974,7 +953,7 @@
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
 			this.menuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-			this.menuStrip.Size = new System.Drawing.Size(1276, 24);
+			this.menuStrip.Size = new System.Drawing.Size(1156, 24);
 			this.menuStrip.TabIndex = 11;
 			this.menuStrip.Text = "menuStrip";
 			// 
@@ -988,26 +967,26 @@
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "&File";
 			// 
-			// exitToolStripMenuItem
-			// 
-			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.exitToolStripMenuItem.Text = "E&xit";
-			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(95, 6);
-			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
 			this.saveToolStripMenuItem.Text = "&Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(135, 6);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+			this.exitToolStripMenuItem.Text = "E&xit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
 			// viewToolStripMenuItem
 			// 
@@ -1108,7 +1087,8 @@
 			// settingsToolStripMenuItem
 			// 
 			this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveLocationsToolStripMenuItem});
+            this.saveLocationsToolStripMenuItem,
+            this.locationOffsetSetupToolStripMenuItem});
 			this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
 			this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
 			this.settingsToolStripMenuItem.Text = "Settings";
@@ -1123,6 +1103,30 @@
 			this.saveLocationsToolStripMenuItem.Text = "Update Location Properties";
 			this.saveLocationsToolStripMenuItem.ToolTipText = "Update location properties for each preview item for positioning.";
 			this.saveLocationsToolStripMenuItem.Click += new System.EventHandler(this.saveLocationsToolStripMenuItem_Click);
+			// 
+			// locationOffsetSetupToolStripMenuItem
+			// 
+			this.locationOffsetSetupToolStripMenuItem.Name = "locationOffsetSetupToolStripMenuItem";
+			this.locationOffsetSetupToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+			this.locationOffsetSetupToolStripMenuItem.Text = "Location Offset Setup";
+			this.locationOffsetSetupToolStripMenuItem.Click += new System.EventHandler(this.locationOffsetSetupToolStripMenuItem_Click);
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewHelpToolStripMenuItem});
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// viewHelpToolStripMenuItem
+			// 
+			this.viewHelpToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewHelpToolStripMenuItem.Image")));
+			this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
+			this.viewHelpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F1)));
+			this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.viewHelpToolStripMenuItem.Text = "&View Help";
+			this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
 			// 
 			// performanceToolStripMenuItem
 			// 
@@ -1144,7 +1148,7 @@
 			// 
 			this.labelZoomLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelZoomLevel.AutoSize = true;
-			this.labelZoomLevel.Location = new System.Drawing.Point(1229, 7);
+			this.labelZoomLevel.Location = new System.Drawing.Point(1105, 8);
 			this.labelZoomLevel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelZoomLevel.Name = "labelZoomLevel";
 			this.labelZoomLevel.Size = new System.Drawing.Size(35, 15);
@@ -1153,20 +1157,22 @@
 			// 
 			// panel9
 			// 
+			this.panel9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel9.AutoSize = true;
 			this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel9.Controls.Add(this.panel10);
 			this.panel9.Controls.Add(this.labelZoomLevel);
 			this.panel9.Controls.Add(this.trackerZoom);
-			this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel9.Location = new System.Drawing.Point(0, 617);
+			this.panel9.Location = new System.Drawing.Point(2, 590);
 			this.panel9.Margin = new System.Windows.Forms.Padding(2);
 			this.panel9.Name = "panel9";
-			this.panel9.Size = new System.Drawing.Size(1276, 32);
+			this.panel9.Size = new System.Drawing.Size(1152, 33);
 			this.panel9.TabIndex = 16;
 			// 
 			// panel10
 			// 
+			this.panel10.AutoSize = true;
 			this.panel10.BackColor = System.Drawing.Color.Black;
 			this.panel10.Controls.Add(this.label13);
 			this.panel10.Controls.Add(this.label12);
@@ -1177,7 +1183,7 @@
 			this.panel10.Location = new System.Drawing.Point(0, 0);
 			this.panel10.Margin = new System.Windows.Forms.Padding(2);
 			this.panel10.Name = "panel10";
-			this.panel10.Size = new System.Drawing.Size(356, 30);
+			this.panel10.Size = new System.Drawing.Size(343, 31);
 			this.panel10.TabIndex = 7;
 			// 
 			// label13
@@ -1238,12 +1244,12 @@
 			// trackerZoom
 			// 
 			this.trackerZoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.trackerZoom.Location = new System.Drawing.Point(1122, 4);
+			this.trackerZoom.Location = new System.Drawing.Point(962, 2);
 			this.trackerZoom.Margin = new System.Windows.Forms.Padding(2);
 			this.trackerZoom.Maximum = 400;
 			this.trackerZoom.Minimum = 25;
 			this.trackerZoom.Name = "trackerZoom";
-			this.trackerZoom.Size = new System.Drawing.Size(107, 22);
+			this.trackerZoom.Size = new System.Drawing.Size(139, 22);
 			this.trackerZoom.TabIndex = 0;
 			this.trackerZoom.Text = "hMiniTracker1";
 			this.trackerZoom.Value = 100;
@@ -1251,40 +1257,160 @@
 			// 
 			// dockPanel
 			// 
+			this.dockPanel.AutoSize = true;
 			this.dockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dockPanel.DocumentStyle = WeifenLuo.WinFormsUI.Docking.DocumentStyle.DockingWindow;
-			this.dockPanel.Location = new System.Drawing.Point(0, 114);
+			this.dockPanel.Location = new System.Drawing.Point(3, 118);
 			this.dockPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.dockPanel.Name = "dockPanel";
-			this.dockPanel.Size = new System.Drawing.Size(1276, 503);
+			this.dockPanel.Size = new System.Drawing.Size(1150, 466);
 			this.dockPanel.TabIndex = 20;
 			// 
-			// helpToolStripMenuItem
+			// tableLayoutPanel1
 			// 
-			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewHelpToolStripMenuItem});
-			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.helpToolStripMenuItem.Text = "Help";
+			this.tableLayoutPanel1.ColumnCount = 5;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Controls.Add(this.buttonIcicle, 3, 1);
+			this.tableLayoutPanel1.Controls.Add(this.buttonMultiString, 4, 0);
+			this.tableLayoutPanel1.Controls.Add(this.buttonPixelGrid, 2, 1);
+			this.tableLayoutPanel1.Controls.Add(this.buttonSemiCircle, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.buttonStar, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.buttonNet, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.buttonCane, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.buttonStarBurst, 3, 0);
+			this.tableLayoutPanel1.Controls.Add(this.buttonMegaTree, 2, 0);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 4);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 2;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(159, 73);
+			this.tableLayoutPanel1.TabIndex = 15;
 			// 
-			// viewHelpToolStripMenuItem
+			// tableLayoutPanel4
 			// 
-			this.viewHelpToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("viewHelpToolStripMenuItem.Image")));
-			this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
-			this.viewHelpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F1)));
-			this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(181, 30);
-			this.viewHelpToolStripMenuItem.Text = "&View Help";
-			this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
+			this.tableLayoutPanel4.ColumnCount = 4;
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel4.Controls.Add(this.buttonAddToPreview, 0, 1);
+			this.tableLayoutPanel4.Controls.Add(this.buttonTemplateHelp, 3, 0);
+			this.tableLayoutPanel4.Controls.Add(this.buttonAddTemplate, 1, 0);
+			this.tableLayoutPanel4.Controls.Add(this.buttonDeleteTemplate, 2, 0);
+			this.tableLayoutPanel4.Controls.Add(this.comboBoxTemplates, 0, 0);
+			this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 1);
+			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+			this.tableLayoutPanel4.RowCount = 2;
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel4.Size = new System.Drawing.Size(242, 74);
+			this.tableLayoutPanel4.TabIndex = 22;
+			// 
+			// tableLayoutMain
+			// 
+			this.tableLayoutMain.ColumnCount = 1;
+			this.tableLayoutMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutMain.Controls.Add(this.tlpToolBar, 0, 0);
+			this.tableLayoutMain.Controls.Add(this.dockPanel, 0, 1);
+			this.tableLayoutMain.Controls.Add(this.panel9, 0, 2);
+			this.tableLayoutMain.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutMain.Location = new System.Drawing.Point(0, 24);
+			this.tableLayoutMain.Name = "tableLayoutMain";
+			this.tableLayoutMain.RowCount = 3;
+			this.tableLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutMain.Size = new System.Drawing.Size(1156, 625);
+			this.tableLayoutMain.TabIndex = 22;
+			// 
+			// tlpToolBar
+			// 
+			this.tlpToolBar.AutoSize = true;
+			this.tlpToolBar.ColumnCount = 8;
+			this.tlpToolBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpToolBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpToolBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpToolBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpToolBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpToolBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpToolBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpToolBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tlpToolBar.Controls.Add(this.panel11, 6, 1);
+			this.tlpToolBar.Controls.Add(this.panel2, 0, 1);
+			this.tlpToolBar.Controls.Add(this.panel6, 1, 1);
+			this.tlpToolBar.Controls.Add(this.pnlBasicDrawing, 2, 1);
+			this.tlpToolBar.Controls.Add(this.pnlSmartObjects, 3, 1);
+			this.tlpToolBar.Controls.Add(this.panel4, 4, 1);
+			this.tlpToolBar.Controls.Add(this.panel5, 5, 1);
+			this.tlpToolBar.Controls.Add(this.label1, 0, 0);
+			this.tlpToolBar.Controls.Add(this.label8, 1, 0);
+			this.tlpToolBar.Controls.Add(this.label2, 2, 0);
+			this.tlpToolBar.Controls.Add(this.label3, 3, 0);
+			this.tlpToolBar.Controls.Add(this.label7, 4, 0);
+			this.tlpToolBar.Controls.Add(this.label4, 5, 0);
+			this.tlpToolBar.Controls.Add(this.label14, 6, 0);
+			this.tlpToolBar.Location = new System.Drawing.Point(3, 3);
+			this.tlpToolBar.Name = "tlpToolBar";
+			this.tlpToolBar.RowCount = 2;
+			this.tlpToolBar.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tlpToolBar.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tlpToolBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpToolBar.Size = new System.Drawing.Size(1077, 108);
+			this.tlpToolBar.TabIndex = 21;
+			// 
+			// pnlBasicDrawing
+			// 
+			this.pnlBasicDrawing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlBasicDrawing.Controls.Add(this.tableLayoutPanel3);
+			this.pnlBasicDrawing.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlBasicDrawing.Location = new System.Drawing.Point(241, 25);
+			this.pnlBasicDrawing.Name = "pnlBasicDrawing";
+			this.pnlBasicDrawing.Size = new System.Drawing.Size(109, 80);
+			this.pnlBasicDrawing.TabIndex = 23;
+			// 
+			// pnlSmartObjects
+			// 
+			this.pnlSmartObjects.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSmartObjects.Controls.Add(this.tableLayoutPanel1);
+			this.pnlSmartObjects.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlSmartObjects.Location = new System.Drawing.Point(356, 25);
+			this.pnlSmartObjects.Name = "pnlSmartObjects";
+			this.pnlSmartObjects.Size = new System.Drawing.Size(165, 80);
+			this.pnlSmartObjects.TabIndex = 24;
+			// 
+			// panel4
+			// 
+			this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel4.Controls.Add(this.tableLayoutPanel2);
+			this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel4.Location = new System.Drawing.Point(527, 25);
+			this.panel4.Name = "panel4";
+			this.panel4.Size = new System.Drawing.Size(167, 80);
+			this.panel4.TabIndex = 25;
+			// 
+			// panel5
+			// 
+			this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel5.Controls.Add(this.tableLayoutPanel4);
+			this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel5.Location = new System.Drawing.Point(700, 25);
+			this.panel5.Name = "panel5";
+			this.panel5.Size = new System.Drawing.Size(245, 80);
+			this.panel5.TabIndex = 26;
 			// 
 			// VixenPreviewSetup3
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(1276, 649);
-			this.Controls.Add(this.dockPanel);
-			this.Controls.Add(this.panel9);
-			this.Controls.Add(this.panelToolbar);
+			this.ClientSize = new System.Drawing.Size(1156, 649);
+			this.Controls.Add(this.tableLayoutMain);
 			this.Controls.Add(this.menuStrip);
 			this.IsMdiContainer = true;
 			this.MainMenuStrip = this.menuStrip;
@@ -1297,17 +1423,13 @@
 			this.Load += new System.EventHandler(this.VixenPreviewSetup3_Load);
 			this.Move += new System.EventHandler(this.VixenPreviewSetup3_Move);
 			this.Resize += new System.EventHandler(this.VixenPreviewSetup3_Resize);
-			this.panelToolbar.ResumeLayout(false);
-			this.panelToolbar.PerformLayout();
 			this.panel11.ResumeLayout(false);
 			this.panel11.PerformLayout();
 			this.toolStripUndo.ResumeLayout(false);
 			this.toolStripUndo.PerformLayout();
-			this.panel8.ResumeLayout(false);
+			this.tableLayoutPanel2.ResumeLayout(false);
 			this.panel6.ResumeLayout(false);
-			this.panel5.ResumeLayout(false);
-			this.panel4.ResumeLayout(false);
-			this.panel3.ResumeLayout(false);
+			this.tableLayoutPanel3.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarBackgroundAlpha)).EndInit();
@@ -1317,23 +1439,28 @@
 			this.panel9.PerformLayout();
 			this.panel10.ResumeLayout(false);
 			this.panel10.PerformLayout();
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel4.ResumeLayout(false);
+			this.tableLayoutPanel4.PerformLayout();
+			this.tableLayoutMain.ResumeLayout(false);
+			this.tableLayoutMain.PerformLayout();
+			this.tlpToolBar.ResumeLayout(false);
+			this.pnlBasicDrawing.ResumeLayout(false);
+			this.pnlSmartObjects.ResumeLayout(false);
+			this.panel4.ResumeLayout(false);
+			this.panel5.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.Panel panelToolbar;
-		private System.Windows.Forms.Panel panel5;
 		private System.Windows.Forms.ComboBox comboBoxTemplates;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Panel panel4;
 		private System.Windows.Forms.Button buttonStar;
 		private System.Windows.Forms.Button buttonCane;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button buttonMegaTree;
-		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button buttonDrawPixel;
 		private System.Windows.Forms.Button buttonEllipse;
@@ -1373,7 +1500,6 @@
 		private System.Windows.Forms.ToolStripMenuItem saveLocationsToolStripMenuItem;
 		private System.Windows.Forms.Button buttonStarBurst;
 		private System.Windows.Forms.ToolTip toolTip;
-		private System.Windows.Forms.Panel panel8;
 		private System.Windows.Forms.Button buttonAlignVertMid;
 		private System.Windows.Forms.Button buttonAlignLeft;
 		private System.Windows.Forms.Button buttonAlignHorizMid;
@@ -1408,5 +1534,16 @@
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem viewHelpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem locationOffsetSetupToolStripMenuItem;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutMain;
+		private System.Windows.Forms.TableLayoutPanel tlpToolBar;
+		private System.Windows.Forms.Panel pnlBasicDrawing;
+		private System.Windows.Forms.Panel pnlSmartObjects;
+		private System.Windows.Forms.Panel panel4;
+		private System.Windows.Forms.Panel panel5;
 	}
 }

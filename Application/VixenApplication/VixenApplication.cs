@@ -10,6 +10,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Runtime;
+using System.Threading;
 using System.Threading.Tasks;
 using Vixen.Module.Editor;
 using Vixen.Module.SequenceType;
@@ -70,18 +71,22 @@ namespace VixenApplication
 				_ProcessArg(arg);
 			}
 
+			Logging.Info("Starting JIT Profiler");
 			StartJITProfiler();
+			Logging.Info("Completed JIT Profiler");
 
 			if (_rootDataDirectory == null)
 			{
+				Logging.Info("Processing Profiles");
 				ProcessProfiles();
+				Logging.Info("Finished Processing Profiles");
 			}
 
 			_applicationData = new VixenApplicationData(_rootDataDirectory);
 
 			_rootDataDirectory = _applicationData.DataFileDirectory;
 
-			if (!CreateLockFile())
+			if (IsProfileLocked(_rootDataDirectory) || !CreateLockFile())
 			{
 				var form = new MessageBoxForm("Profile is already in use or unable to the lock the profile.","Error",MessageBoxButtons.OK, SystemIcons.Error);
 				form.ShowDialog();
@@ -137,17 +142,20 @@ namespace VixenApplication
 			bool success = false;
 			try
 			{
-				if (Directory.Exists(_rootDataDirectory))
+				if (!Directory.Exists(_rootDataDirectory))
 				{
-					LockFilePath = Path.Combine(_rootDataDirectory, LockFile);
-					if (!File.Exists(LockFilePath))
-					{
-						File.WriteAllText(LockFilePath, GetUniqueProcessId());
-						//Set this back on the root app to use in case of system errors and we need a failsafe way to delete the lock
-						Program.LockFilePath = LockFilePath; 
-						success = true;
-					}
+					//Our startup folder is not present, so create it.
+					Directory.CreateDirectory(_rootDataDirectory);
 				}
+				LockFilePath = Path.Combine(_rootDataDirectory, LockFile);
+				if (!File.Exists(LockFilePath))
+				{
+					File.WriteAllText(LockFilePath, GetUniqueProcessId());
+					//Set this back on the root app to use in case of system errors and we need a failsafe way to delete the lock
+					Program.LockFilePath = LockFilePath;
+					success = true;
+				}
+
 			}
 			catch (Exception e)
 			{
@@ -262,11 +270,18 @@ namespace VixenApplication
 				editor.CloseEditor();
 			}
 
+			while (VixenSystem.IsSaving())
+			{
+				Logging.Warn("Waiting for save to finish before closing.");
+				Thread.Sleep(250);
+			}
+
 			stopping = true;
 			await VixenSystem.Stop(false);
 
 			_applicationData.SaveData();
 			RemoveLockFile(LockFilePath);
+			
 			Application.Exit();
 		}
 
@@ -290,10 +305,16 @@ namespace VixenApplication
 			PopulateRecentSequencesList();
 		}
 
-		private void VixenApplication_Shown(object sender, EventArgs e)
+		private async void VixenApplication_Shown(object sender, EventArgs e)
 		{
 			CheckForTestBuild();
 			//Try to make sure at load we are on top.
+			await Task.Delay(750);
+			MakeTopMost();
+		}
+
+		private void MakeTopMost()
+		{
 			TopMost = true;
 			TopMost = false;
 		}

@@ -931,7 +931,7 @@ namespace VixenModules.Editor.TimedSequenceEditor
 					return _findEffects;
 				}
 
-				_findEffects = new FindEffectForm(TimelineControl);
+				_findEffects = new FindEffectForm(TimelineControl, Sequence.GetSequenceLayerManager());
 
 				return _findEffects;
 			}
@@ -1239,7 +1239,7 @@ namespace VixenModules.Editor.TimedSequenceEditor
 				TimelineControl.grid.SupressRendering = true; //Hold off rendering while we load elements. 
 				// This takes quite a bit of time so queue it up
 				//The sequence loader now adds the media to the effects on sequences it loads so we don't have to do it here.
-				taskQueue.Enqueue(Task.Factory.StartNew(() => AddElementsForEffectNodes(_sequence.SequenceData.EffectData, false)));
+				taskQueue.Enqueue(Task.Factory.StartNew(() => AddElementsForEffectNodes(_sequence.SequenceData.EffectData.ToList(), false)));
 
 
 				// Now that it is queued up, let 'er rip and start background rendering when complete.
@@ -2029,6 +2029,8 @@ namespace VixenModules.Editor.TimedSequenceEditor
 		{
 			toolStripButton_Copy.Enabled = toolStripButton_Cut.Enabled = TimelineControl.SelectedElements.Any();
 			toolStripMenuItem_Copy.Enabled = toolStripMenuItem_Cut.Enabled = TimelineControl.SelectedElements.Any();
+			toolStripMenuItem_deleteElements.Enabled = TimelineControl.ruler.selectedMarks.Any() ||
+			                                           TimelineControl.SelectedElements.Any();
 		}
 
 		private void TimelineControl_MouseDown(object sender, MouseEventArgs e)
@@ -3960,6 +3962,20 @@ namespace VixenModules.Editor.TimedSequenceEditor
 
 			foreach (EffectNode node in nodes)
 			{
+				if (node.StartTime > _sequence.Length)
+				{
+					Logging.Warn("Effect start time {0} is beyond the sequence end time {1}. Dropping the effect.", node.StartTime, _sequence.Length);
+					_sequence.RemoveData(node);
+					continue;
+				}
+				if (node.EndTime > _sequence.Length)
+				{
+					Logging.Warn("Effect end time {0} is beyond the sequence end time {1}. Adjusting the effect length to fit.", node.StartTime, _sequence.Length);
+					if (node.Effect != null)
+					{
+						node.Effect.TimeSpan = _sequence.Length - node.StartTime;
+					}
+				}
 				if (assignMedia && node.Effect.SupportsMedia)
 				{
 					node.Effect.Media = Sequence.SequenceData.Media;
@@ -4971,13 +4987,15 @@ namespace VixenModules.Editor.TimedSequenceEditor
 						result.FirstVisibleRow = rownum;
 
 					int relativeVisibleRow = rownum - result.FirstVisibleRow;
-
+					var layer = layerManager.GetLayer(elem.EffectNode);
 					EffectModelCandidate modelCandidate =
 						new EffectModelCandidate(elem.EffectNode.Effect)
 							{
 								Duration = elem.Duration,
 								StartTime = elem.StartTime,
-								LayerId = layerManager.GetLayer(elem.EffectNode).Id
+								LayerId = layer.Id,
+								LayerName = layer.LayerName,
+								LayerTypeId = layer.FilterTypeId
 							};
 					result.EffectModelCandidates.Add(modelCandidate, relativeVisibleRow);
 
@@ -5064,7 +5082,21 @@ namespace VixenModules.Editor.TimedSequenceEditor
 				var newEffect = ApplicationServices.Get<IEffectModuleInstance>(effectModelCandidate.TypeId);
 				newEffect.ModuleData = effectModelCandidate.GetEffectData();
 				var node = CreateEffectNode(newEffect, visibleRows[targetRowIndex], targetTime, effectModelCandidate.Duration);
-				LayerManager.AssignEffectNodeToLayer(node, effectModelCandidate.LayerId);
+
+				if(LayerManager.ContainsLayer(effectModelCandidate.LayerId))
+				{
+					LayerManager.AssignEffectNodeToLayer(node, effectModelCandidate.LayerId);
+				}
+				else
+				{
+					//Best efforts to try and find a layer of the same name and type before letting it assign default.
+					var layer = LayerManager.GetLayer(effectModelCandidate.LayerName, effectModelCandidate.LayerTypeId);
+					if (layer != null)
+					{
+						LayerManager.AssignEffectNodeToLayer(node, layer.Id);
+					}
+
+				}
 				nodesToAdd.Add(node);
 				
 				result++;
@@ -5223,13 +5255,8 @@ namespace VixenModules.Editor.TimedSequenceEditor
 
 		private void toolStripMenuItem_deleteElements_Click(object sender, EventArgs e)
 		{
-			if (TimelineControl.ruler.selectedMarks.Any())
-			{
-				TimelineControl.ruler.DeleteSelectedMarks();
-			}
-			
+			TimelineControl.ruler.DeleteSelectedMarks();
 			RemoveSelectedElements();
-			
 		}
 
 		private void selectAllElementsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5952,8 +5979,6 @@ namespace VixenModules.Editor.TimedSequenceEditor
 			gridWindowToolStripMenuItem.Checked = !GridForm.IsHidden;
 			effectEditorWindowToolStripMenuItem.Checked =
 				!(_effectEditorForm == null || EffectEditorForm.DockState == DockState.Unknown);
-			toolStripMenuItem_deleteElements.Enabled = TimelineControl.ruler.selectedMarks.Any() ||
-													   TimelineControl.grid.SelectedElements.Any();
 		}
 
 		private void timerPostponePlay_Tick(object sender, EventArgs e)
@@ -6371,7 +6396,7 @@ namespace VixenModules.Editor.TimedSequenceEditor
 		/// <returns></returns>
 		private TimeSpan FindNearestMark(TimeSpan referenceTimeSpan, TimeSpan referenceTimeSpan1, string alignMethod)
 		{
-			var threshold = TimeSpan.FromSeconds(Convert.ToDouble(AlignTo_Threshold));
+			var threshold = TimeSpan.FromSeconds(Convert.ToDouble(AlignTo_Threshold, CultureInfo.InvariantCulture));
 			TimeSpan result = TimeSpan.Zero;
 			TimeSpan compareResult = TimeSpan.Zero;
 
