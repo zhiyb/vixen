@@ -397,14 +397,14 @@ namespace Vixen.Sys
 			while (_info.audio && _nextUpdateTime + (long)_export.Resolution >= _info.audioTime) {
 				int got = 0, video = 0;
 				IntPtr pkt = PlaybackCodec.decode_read_packet(_info.data, out got, out video);
-				if (got != 0) {	
-					if (video == 0) {
-						IntPtr frame = PlaybackCodec.decode_audio_frame(_info.data, pkt);
-						PlaybackCodec.fmod_queue_frame(_info.data, frame);
-						_info.audioTime += PlaybackCodec.decode_audio_frame_length(frame);
-					} else
-						PlaybackCodec.decode_free_packet(pkt);
-				}
+                if (got == 0)
+                    break;
+				if (video == 0) {
+					IntPtr frame = PlaybackCodec.decode_audio_frame(_info.data, pkt);
+					PlaybackCodec.fmod_queue_frame(_info.data, frame);
+					_info.audioTime += PlaybackCodec.decode_audio_frame_length(frame);
+				} else
+					PlaybackCodec.decode_free_packet(pkt);
 			}
 		}
 
