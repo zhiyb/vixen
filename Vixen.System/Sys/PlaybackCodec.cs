@@ -66,8 +66,11 @@ namespace Vixen.Sys
 		[DllImport("codec.dll")]
 		public static extern IntPtr decode_audio_frame(IntPtr data, IntPtr pkt);
 
-		[DllImport("codec.dll")]
-		public static extern uint decode_audio_frame_length(IntPtr frame);
+        [DllImport("codec.dll")]
+        public static extern int decode_audio_sample_rate(IntPtr data);
+
+        [DllImport("codec.dll")]
+        public static extern int decode_audio_frame_samples(IntPtr frame);
 
 		[DllImport("codec.dll")]
 		public static extern IntPtr decode_video_frame(IntPtr data, IntPtr pkt);

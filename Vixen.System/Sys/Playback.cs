@@ -68,7 +68,8 @@ namespace Vixen.Sys
 			public enum Types {Invalid, Sequence, Video};
 			public Types type;
 			public bool audio;
-			public long audioTime;
+            public long audioSamples;
+            public int audioRate;
 			public IntPtr data;
 			public int channels;
 			public byte[] chdata;
@@ -149,11 +150,12 @@ namespace Vixen.Sys
 				if (gota == 0) {
 					PlaybackCodec.decode_close(data);
 					return;
-				}
-				CodecClose(ref info);
+                }
+                CodecClose(ref info);
 				info.audio = false;
-				info.audioTime = 0;
-				if (PlaybackCodec.fmod_init(data) == 0)
+                info.audioSamples = 0;
+                info.audioRate = PlaybackCodec.decode_audio_sample_rate(data);
+                if (PlaybackCodec.fmod_init(data) == 0)
 					if (PlaybackCodec.fmod_create_stream(data, data, sync) == 0) {
 						info.audio = true;
 						info.data = data;
@@ -394,7 +396,9 @@ namespace Vixen.Sys
 
 		private static void ReadAudioFrame()
 		{
-			while (_info.audio && _nextUpdateTime + (long)_export.Resolution >= _info.audioTime) {
+			while (_info.audio &&
+                    _nextUpdateTime + (long)_export.Resolution >=
+                    _info.audioSamples * 1000l / (long)_info.audioRate) {
 				int got = 0, video = 0;
 				IntPtr pkt = PlaybackCodec.decode_read_packet(_info.data, out got, out video);
                 if (got == 0)
@@ -402,7 +406,7 @@ namespace Vixen.Sys
 				if (video == 0) {
 					IntPtr frame = PlaybackCodec.decode_audio_frame(_info.data, pkt);
 					PlaybackCodec.fmod_queue_frame(_info.data, frame);
-					_info.audioTime += PlaybackCodec.decode_audio_frame_length(frame);
+					_info.audioSamples += PlaybackCodec.decode_audio_frame_samples(frame);
 				} else
 					PlaybackCodec.decode_free_packet(pkt);
 			}
