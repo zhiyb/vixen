@@ -120,7 +120,7 @@ namespace Vixen.Sys
         private static RefreshRateValue _updateRate;
         private static TimeValue _playbackTime = null;
 
-		private static void ImportMedia(ref Info info, string sequencePath, string filePath)
+		private static void ImportMedia(ref Info info, string sequencePath, string filePath, uint sync)
         {
             /*IMediaModuleInstance media = MediaService.Instance.ImportMedia(filePath);
 			if (media != null) {
@@ -154,7 +154,7 @@ namespace Vixen.Sys
 				info.audio = false;
 				info.audioTime = 0;
 				if (PlaybackCodec.fmod_init(data) == 0)
-					if (PlaybackCodec.fmod_create_stream(data, data) == 0) {
+					if (PlaybackCodec.fmod_create_stream(data, data, sync) == 0) {
 						info.audio = true;
 						info.data = data;
 						return;
@@ -198,13 +198,15 @@ namespace Vixen.Sys
 				_export = (Export)serializer.Deserialize(reader);
 				reader.Close();
 
+                // Open RAW sequence file
 				_fs = File.OpenRead(Path.Combine(Path.GetDirectoryName(fileName), _export.OutFile));
 				_dataIn = new BinaryReader(_fs);
+                // Open audio stream if available
 				info.audio = false;
 				foreach (var filePath in _export.Media)
 				{
 					Logging.Info("Media file: " + filePath);
-					ImportMedia(ref info, fileName, filePath);
+					ImportMedia(ref info, fileName, filePath, (uint)_export.Resolution);
 				}
 
 				info.channels = LoadExportInfo();
@@ -233,21 +235,24 @@ namespace Vixen.Sys
 				PlaybackCodec.decode_close(data);
 				return;
 			}
-			info.audio = false;
-			if (gota != 0) {
-				if (PlaybackCodec.fmod_init(data) == 0)
-					if (PlaybackCodec.fmod_create_stream(data, data) == 0)
-						info.audio = true;
-			}
-			string strXml = Marshal.PtrToStringAnsi(cmtp);
 
-			// Deserialise XML controller configuration
-			var reader = new StringReader(strXml);
+            // Deserialise XML controller configuration
+            string strXml = Marshal.PtrToStringAnsi(cmtp);
+            var reader = new StringReader(strXml);
 			var serializer = new XmlSerializer(typeof(Export));
 			_export = (Export)serializer.Deserialize(reader);
 			reader.Close();
 
-			info.channels = LoadExportInfo();
+            // Create FMOD stream for audio if available
+            info.audio = false;
+            if (gota != 0)
+            {
+                if (PlaybackCodec.fmod_init(data) == 0)
+                    if (PlaybackCodec.fmod_create_stream(data, data, (uint)_export.Resolution) == 0)
+                        info.audio = true;
+            }
+
+            info.channels = LoadExportInfo();
 			info.data = data;
 			info.chdata = new byte[info.channels];
 			info.type = Info.Types.Video;
