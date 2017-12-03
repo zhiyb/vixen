@@ -389,7 +389,7 @@ namespace Vixen.Sys
 
 		private static void ReadAudioFrame()
 		{
-			if (_info.audio && _nextUpdateTime >= _info.audioTime) {
+			while (_info.audio && _nextUpdateTime + (long)_export.Resolution >= _info.audioTime) {
 				int got = 0, video = 0;
 				IntPtr pkt = PlaybackCodec.decode_read_packet(_info.data, out got, out video);
 				if (got != 0) {	
